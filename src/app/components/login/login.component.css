@@ -1,0 +1,9 @@
+.login-page{
+    height: 100%;
+    margin: auto;
+    text-align: center;
+}
+.modal-title {
+    font-weight: bold;
+    font-size: 30px;
+}

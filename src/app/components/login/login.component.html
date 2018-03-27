@@ -1,0 +1,35 @@
+<div id="loginModal" class="modal fade" role="dialog" class="login-page">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3 class="modal-title">Welcome to admin page</h3>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]='loginForm' (ngSubmit)="onSubmit(loginForm)">
+                    <div class="form-container">
+                        <div class="row columns">
+                            <div class="form-group">
+                                <input type="text" class="form-control" formControlName='email' name="email" placeholder="Your Email id">
+                            </div>
+                            <br>
+                            <div class="form-group">
+                                <input class="form-control" type="Password" formControlName='password' name="password" placeholder="Your password">
+                            </div>
+                            <br>
+                            <div>
+                                <input class="btn btn-default" type="Submit" value="Log In">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $("#loginModal").trigger('click');
+    });
+</script>

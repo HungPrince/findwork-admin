@@ -1,0 +1,27 @@
+<div>
+    <form [formGroup]='signupForm' (ngSubmit)="onSubmit(signupForm)">
+        <div class="form-container">
+            <div class="row columns">
+                <div>
+                    <input type="text" formControlName='fname' placeholder="Your First name">
+                </div>
+                <div>
+                    <br>
+                    <input type="text" formControlName='lname' placeholder="Your Last name">
+                </div>
+                <br>
+                <div>
+                    <input type="text" formControlName='email' placeholder="Your Email id">
+                </div>
+                <br>
+                <div>
+                    <input type="Password" formControlName='password' placeholder="Your password">
+                </div>
+                <br>
+                <div>
+                    <input type="Submit" value="Sign Up">
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
