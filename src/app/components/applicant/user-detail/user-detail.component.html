@@ -1,0 +1,28 @@
+<div *ngIf="data" class="user-modal-detail">
+    <h2 mat-dialog-title>{{data.name}}</h2>
+    <mat-dialog-actions>
+        <button mat-button mat-dialog-close>&times;</button>
+    </mat-dialog-actions>
+    <mat-dialog-content>
+        <mat-list>
+            <mat-list-item><span>Email:</span> {{data.email}}</mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item><span>School:</span>{{data.school}}</mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item><span>Speciality:</span>{{data.speciality}}</mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item><span>Gender:</span> {{data.gender}}</mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item><span>Role:</span> {{data.role}}</mat-list-item>
+            <mat-list-item><span>Description:</span> {{data.description}}</mat-list-item>
+            <mat-divider></mat-divider>
+            <div *ngIf="data.phone">
+                <mat-list-item *ngIf="data.phone.phone1"><span>Phone 1:</span> {{data.phone.phone1}}</mat-list-item>
+                <mat-divider *ngIf="data.phone.phone1"></mat-divider>
+                <mat-list-item *ngIf="data.phone.phone2"><span>Phone 2:</span> {{data.phone.phone2}}</mat-list-item>
+                <mat-divider *ngIf="data.phone.phone2"></mat-divider>
+            </div>
+            <mat-list-item><span>Address:</span> {{data.address}}</mat-list-item>
+        </mat-list>
+    </mat-dialog-content>
+</div>

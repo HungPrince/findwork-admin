@@ -6,10 +6,10 @@ import { Observable } from 'rxjs/Observable';
 import * as firebase from 'firebase/app';
 import { map } from "rxjs/operators";
 
-import { Applicant } from "./../../models/applicant";
+import { User } from "./../../models/user";
 
 @Injectable()
-export class ApplicantService {
+export class UserService {
 
     constructor(public afAuth: AngularFireAuth, public af: AngularFireDatabase, private http: HttpClient) {
 
@@ -21,6 +21,10 @@ export class ApplicantService {
 
     getAll(): Observable<any> {
         return this.af.list('users').valueChanges();
+    }
+
+    testPagination(): any {
+        return this.af.database.ref("users").orderByChild('name').startAt("Hung Bui").limitToLast(5).once("value", (data) => { console.log(data.val()) });
     }
 
 }
