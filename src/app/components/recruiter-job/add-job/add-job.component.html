@@ -27,18 +27,18 @@
             </mat-form-field>
 
             <mat-form-field class="full-width">
-                <input  formControlName="city" name="city" type="text" placeholder="Choose city" aria-label="Number" matInput [matAutocomplete]="auto">
-                <mat-autocomplete #auto="matAutocomplete">
-                    <mat-option  *ngFor="let city of cities" [value]="city.name" (click)="changeCity(city)">
+                <input formControlName="city" name="city" type="text" (keyup)="searchCity()" placeholder="Choose city" aria-label="Number" matInput [matAutocomplete]="city">
+                <mat-autocomplete #city="matAutocomplete">
+                    <mat-option *ngFor="let city of cities" [value]="city.name" (click)="changeCity(city)">
                         {{ city.name }}
                     </mat-option>
                 </mat-autocomplete>
             </mat-form-field>
 
             <mat-form-field class="full-width">
-                <input formControlName="district" name="district" type="text" placeholder="Choose district" aria-label="Number" matInput
-                    [matAutocomplete]="auto">
-                <mat-autocomplete #auto="matAutocomplete">
+                <input formControlName="district" name="district" (keyup)="searchDistrict()" type="text" placeholder="Choose district" aria-label="Number" matInput
+                    [matAutocomplete]="district">
+                <mat-autocomplete #district="matAutocomplete">
                     <mat-option *ngFor="let district of districts" [value]="district.name" (click)="changeDistrict(district)">
                         {{ district.name }}
                     </mat-option>
@@ -46,8 +46,8 @@
             </mat-form-field>
 
             <mat-form-field class="full-width">
-                <input formControlName="street" name="street" type="text" placeholder="Choose street" aria-label="Number" matInput [matAutocomplete]="auto">
-                <mat-autocomplete #auto="matAutocomplete">
+                <input formControlName="street" name="street" type="text" placeholder="Choose street" aria-label="Number" matInput [matAutocomplete]="street">
+                <mat-autocomplete #street="matAutocomplete">
                     <mat-option *ngFor="let street of streets" [value]="street.name">
                         {{ street.name }}
                     </mat-option>

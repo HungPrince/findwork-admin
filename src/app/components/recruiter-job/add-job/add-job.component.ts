@@ -1,12 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { TYPES, CITIES, DISTRICTS, STREETS, FUNCTION_JOB } from '../../../configs/data';
 import { FormBuilder, FormGroup, FormControl, Validators, NgForm } from '@angular/forms';
+import { Observable } from '@firebase/util/dist/esm/src/subscribe';
+import { map } from 'rxjs/operators/map';
+import { startWith } from 'rxjs/operators/startWith';
 
 @Component({
     selector: 'app-add-job',
     templateUrl: './add-job.component.html',
     styleUrls: ['./add-job.component.css']
 })
+
 export class AddJobComponent implements OnInit {
 
     types = TYPES;
@@ -15,7 +19,20 @@ export class AddJobComponent implements OnInit {
     streets: any;
     functions = FUNCTION_JOB;
     formJob: FormGroup;
+    citySearch: any;
+    districtSearch: any;
     constructor(private frmbuider: FormBuilder) {
+        this.cities = [];
+        CITIES.forEach(city => {
+            for (let key in city) {
+                this.cities.push({
+                    name: city[key].name_with_type,
+                    code: key
+                });
+            }
+            this.citySearch = this.cities;
+        });
+
         this.formJob = frmbuider.group({
             company: new FormControl(),
             title: new FormControl(),
@@ -32,17 +49,11 @@ export class AddJobComponent implements OnInit {
     }
 
     ngOnInit() {
-        CITIES.forEach(city => {
-            for (let key in city) {
-                this.cities.push({
-                    name: city[key].name_with_type,
-                    code: key
-                });
-            }
-        });
+
     }
 
     changeCity(city) {
+        console.log(city);
         this.districts = [];
         DISTRICTS.forEach(district => {
             for (let key in district) {
@@ -53,6 +64,7 @@ export class AddJobComponent implements OnInit {
                     });
                 }
             }
+            this.districtSearch = this.districts;
         });
     }
 
@@ -70,4 +82,21 @@ export class AddJobComponent implements OnInit {
         });
     }
 
+    searchCity() {
+        let search = this.formJob.value.city.trim().toLowerCase();
+        let listCity = this.citySearch.filter(city =>
+            city.name.toLowerCase().indexOf(search) > -1);
+        if (listCity) {
+            this.cities = listCity;
+        }
+    }
+
+    searchDistrict() {
+        let search = this.formJob.value.district.trim().toLowerCase();
+        let listDistrict = this.districtSearch.filter(district =>
+            district.name.toLowerCase().indexOf(search) > -1);
+        if (listDistrict) {
+            this.districts = listDistrict;
+        }
+    }
 }

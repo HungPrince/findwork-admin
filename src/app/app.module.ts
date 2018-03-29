@@ -2,26 +2,14 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {
-    MatInputModule, MatPaginatorModule, MatProgressSpinnerModule,
-    MatSortModule, MatTableModule
-} from "@angular/material";
 
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatSelectModule } from '@angular/material/select';
-import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { TagInputModule } from 'ngx-chips';
-import { MatFormFieldModule } from '@angular/material/form-field';
+
+import { MaterialModule } from './material.module';
 
 import { HttpClientModule } from '@angular/common/http';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFireAuth } from 'angularfire2/auth';
@@ -91,11 +79,6 @@ const appRoutes: Routes = [
         FormsModule,
         ReactiveFormsModule,
         BrowserModule,
-        MatInputModule,
-        MatTableModule,
-        MatPaginatorModule,
-        MatSortModule,
-        MatProgressSpinnerModule,
         HttpClientModule,
         BrowserAnimationsModule,
         NoopAnimationsModule,
@@ -109,16 +92,7 @@ const appRoutes: Routes = [
             secondaryColour: '#ffffff',
             tertiaryColour: '#ffffff'
         }),
-        MatButtonModule,
-        MatCheckboxModule,
-        MatSelectModule,
-        MatIconModule,
-        MatListModule,
-        MatDialogModule,
-        MatDatepickerModule,
-        MatAutocompleteModule,
-        TagInputModule,
-        MatFormFieldModule
+        MaterialModule
     ],
     providers: [
         UserService,
