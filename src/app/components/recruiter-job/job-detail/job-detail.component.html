@@ -1,0 +1,33 @@
+<div *ngIf="data" class="job-modal-detail">
+    <h2 mat-dialog-title>{{data.company}}</h2>
+    <mat-dialog-actions>
+        <button mat-button mat-dialog-close>&times;</button>
+    </mat-dialog-actions>
+    <mat-dialog-content>
+        <mat-list>
+            <mat-list-item><span>Title:</span> {{data.title}}</mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item><span>Type:</span>{{data.type}}</mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item><span>Function:</span><div *ngFor="let func of data.function">{{func.value}} | </div></mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item><span>Website:</span><a href="{{data.website}}" target="blank">{{data.website}}</a></mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item><span>DateFrom:</span>{{data.dateFrom}}</mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item><span>DateTo:</span>{{data.dateTo}}</mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item *ngIf="data.address"><span>Address:</span>{{data.address.city}}, {{data.address.district}}, {{data.address.street}}</mat-list-item>
+            <mat-list-item><span>Description:</span> {{data.description}}</mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item><span>Level:</span> {{data.level}} </mat-list-item>
+            <mat-divider></mat-divider>
+            <div *ngIf="data.phone">
+                <mat-list-item *ngIf="data.phone.phone1"><span>Phone 1:</span> {{data.phone.phone1}}</mat-list-item>
+                <mat-divider *ngIf="data.phone.phone1"></mat-divider>
+                <mat-list-item *ngIf="data.phone.phone2"><span>Phone 2:</span> {{data.phone.phone2}}</mat-list-item>
+                <mat-divider *ngIf="data.phone.phone2"></mat-divider>
+            </div>
+        </mat-list>
+    </mat-dialog-content>
+</div>

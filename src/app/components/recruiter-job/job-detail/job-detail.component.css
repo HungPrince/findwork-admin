@@ -1,0 +1,24 @@
+.job-modal-detail{
+    z-index: 2;
+    margin: auto;
+}
+
+.job-modal-detail h2{
+    text-align: center;
+}
+
+mat-dialog-actions{
+    width: 50px;
+    margin-top: -78px;
+    float: right;
+}
+mat-dialog-actions button{
+    min-width: 30px;
+    font-size: 30px;
+}
+
+mat-list-item span{
+    font-weight: bold;
+    width:15%;
+    text-align: justify;
+}

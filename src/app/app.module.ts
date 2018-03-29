@@ -15,6 +15,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { TagInputModule } from 'ngx-chips';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -34,11 +38,14 @@ import { FooterComponent } from './components/shares/footer/footer.component';
 import { RecruiterComponent } from './components/recruiter/recruiter.component';
 import { RecruiterJobComponent } from './components/recruiter-job/recruiter-job.component';
 import { ApplicantJobComponent } from './components/applicant-job/applicant-job.component'
-
-import { FIREBASE_CONFIG } from './configs/constant';
 import { LoginComponent } from './components/login/login.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { UserDetailComponent } from './components/applicant/user-detail/user-detail.component';
+import { JobDetailComponent } from './components/recruiter-job/job-detail/job-detail.component';
+
+import { FIREBASE_CONFIG } from './configs/constant';
+import { JobService } from './services/job/job.service';
+import { AddJobComponent } from './components/recruiter-job/add-job/add-job.component';
 
 const appRoutes: Routes = [
     { path: 'admin', component: StatisticalComponent },
@@ -72,9 +79,11 @@ const appRoutes: Routes = [
         ApplicantJobComponent,
         LoginComponent,
         SignupComponent,
-        UserDetailComponent
+        UserDetailComponent,
+        JobDetailComponent,
+        AddJobComponent,
     ],
-    entryComponents: [UserDetailComponent],
+    entryComponents: [UserDetailComponent, JobDetailComponent, AddJobComponent],
     imports: [
         RouterModule.forRoot(
             appRoutes,
@@ -105,9 +114,17 @@ const appRoutes: Routes = [
         MatSelectModule,
         MatIconModule,
         MatListModule,
-        MatDialogModule
+        MatDialogModule,
+        MatDatepickerModule,
+        MatAutocompleteModule,
+        TagInputModule,
+        MatFormFieldModule
     ],
-    providers: [UserService, AngularFireAuth, AngularFireDatabase],
+    providers: [
+        UserService,
+        JobService,
+        AngularFireAuth,
+        AngularFireDatabase],
     bootstrap: [AppComponent],
 })
 

@@ -1,0 +1,24 @@
+.full-width {
+    width: 40%;
+    margin-left: 5%;
+    float: left;
+}
+
+mat-dialog-actions{
+    width: 40px;
+    margin-top: -70px;
+    float: right;
+    background: transparent !important;
+}
+mat-dialog-actions button {
+    background: transparent !important;
+}
+
+.job-modal-add h2{
+    text-align: center;
+}
+
+.save-job{
+    margin-top: 50px;
+    width: 20%;
+}

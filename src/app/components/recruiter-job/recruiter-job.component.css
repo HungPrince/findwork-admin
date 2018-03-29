@@ -1,0 +1,20 @@
+.post-table mat-header-cell {
+    font-size: 15px;
+    font-weight: bold;
+    color: darkorchid;
+}
+.post-table .action-table {
+    flex: 0 0 150px !important;
+    text-align: center;
+}
+
+.post-table .action-table button {
+    margin: 2%;
+}
+.avatar {
+    width: 50%;
+    margin: 5%;
+}
+.add {
+    margin-bottom: 1% !important;
+}

@@ -1,0 +1,77 @@
+<div class="job-modal-add">
+    <h2 mat-dialog-title>Add Job</h2>
+    <mat-dialog-actions>
+        <button mat-button mat-dialog-close>&times;</button>
+    </mat-dialog-actions>
+    <mat-dialog-content>
+        <form [formGroup]="formJob" (ngSubmit)="save(formJob)" novalidate>
+
+            <mat-form-field class="full-width">
+                <input formControlName="company" name="company" matInput placeholder="Company name" value="">
+            </mat-form-field>
+
+            <mat-form-field class="full-width">
+                <input formControlName="title" name="title" matInput placeholder="title" value="">
+            </mat-form-field>
+
+            <mat-form-field class="full-width">
+                <input formControlName="website" name="website" matInput placeholder="website" value="">
+            </mat-form-field>
+
+            <mat-form-field class="full-width">
+                <mat-select formControlName="type" name="type" placeholder="Type job">
+                    <mat-option *ngFor="let type of types" [value]="type">
+                        {{ type }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="full-width">
+                <input  formControlName="city" name="city" type="text" placeholder="Choose city" aria-label="Number" matInput [matAutocomplete]="auto">
+                <mat-autocomplete #auto="matAutocomplete">
+                    <mat-option  *ngFor="let city of cities" [value]="city.name" (click)="changeCity(city)">
+                        {{ city.name }}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field class="full-width">
+                <input formControlName="district" name="district" type="text" placeholder="Choose district" aria-label="Number" matInput
+                    [matAutocomplete]="auto">
+                <mat-autocomplete #auto="matAutocomplete">
+                    <mat-option *ngFor="let district of districts" [value]="district.name" (click)="changeDistrict(district)">
+                        {{ district.name }}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field class="full-width">
+                <input formControlName="street" name="street" type="text" placeholder="Choose street" aria-label="Number" matInput [matAutocomplete]="auto">
+                <mat-autocomplete #auto="matAutocomplete">
+                    <mat-option *ngFor="let street of streets" [value]="street.name">
+                        {{ street.name }}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+
+            <tag-input formControlName="function" name="function" [onlyFromAutocomplete]="true" class="full-width">
+                <tag-input-dropdown [showDropdownIfEmpty]="true" [appendToBody]="false" [autocompleteItems]="functions">
+                </tag-input-dropdown>
+            </tag-input>
+
+            <!-- <mat-form-field>
+                <input formControlName="dateFrom" name="dateFrom" matInput [matDatepicker]="picker" placeholder="Choose a date from">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field>
+                <input formControlName="dateTo" name="dateTo" matInput [matDatepicker]="picker" placeholder="Choose a date to">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field> -->
+
+            <button mat-raised-button color="primary" class="primary save-job">Save</button>
+        </form>
+    </mat-dialog-content>
+</div>

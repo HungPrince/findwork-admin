@@ -6,7 +6,6 @@ import { merge } from "rxjs/observable/merge";
 import { fromEvent } from 'rxjs/observable/fromEvent';
 import { debounce } from 'rxjs/operators/debounce';
 import { Observable } from 'rxjs/Observable';
-import { DataSource } from "@angular/cdk/collections";
 import { UserDetailComponent } from "./user-detail/user-detail.component";
 
 import { UserService } from '../../services/user/user.service';
@@ -20,7 +19,7 @@ import { User } from "../../models/user";
 export class ApplicantComponent {
     tableName = "Applicant Table";
     tableTitle = "This is list applicant";
-    displayedColumns = ['name', 'email', 'avatar', 'gender', 'school', 'speciality', 'role', 'action'];
+    displayedColumns = ['name', 'email', 'avatar', 'school', 'speciality', 'role', 'action'];
     dataSource: any;
     user: any;
     keyword: string;
