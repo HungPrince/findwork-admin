@@ -14,6 +14,8 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase } from 'angularfire2/database';
+import { MatDatepicker } from '@angular/material';
+import { EditorModule } from '@tinymce/tinymce-angular';
 
 import { AppComponent } from './app.component';
 import { SidebarComponent } from './components/shares/sidebar/sidebar.component';
@@ -92,13 +94,15 @@ const appRoutes: Routes = [
             secondaryColour: '#ffffff',
             tertiaryColour: '#ffffff'
         }),
-        MaterialModule
+        MaterialModule,
+        EditorModule,
     ],
     providers: [
         UserService,
         JobService,
         AngularFireAuth,
-        AngularFireDatabase],
+        AngularFireDatabase,
+        MatDatepicker],
     bootstrap: [AppComponent],
 })
 

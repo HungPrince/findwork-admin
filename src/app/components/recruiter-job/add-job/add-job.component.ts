@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { TYPES, CITIES, DISTRICTS, STREETS, FUNCTION_JOB } from '../../../configs/data';
 import { FormBuilder, FormGroup, FormControl, Validators, NgForm } from '@angular/forms';
 import { Observable } from '@firebase/util/dist/esm/src/subscribe';
 import { map } from 'rxjs/operators/map';
 import { startWith } from 'rxjs/operators/startWith';
+import { MatDatepicker } from '@angular/material';
+import { Moment } from 'moment';
+import * as moment from 'moment';
 
 @Component({
     selector: 'app-add-job',
@@ -12,7 +15,8 @@ import { startWith } from 'rxjs/operators/startWith';
 })
 
 export class AddJobComponent implements OnInit {
-
+    @ViewChild(MatDatepicker) dateFrom: MatDatepicker<Moment>;
+    @ViewChild(MatDatepicker) dateTo: MatDatepicker<Moment>;
     types = TYPES;
     cities: any;
     districts: any;

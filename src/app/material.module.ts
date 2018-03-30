@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 
 import {
     MatInputModule, MatPaginatorModule, MatProgressSpinnerModule,
-    MatSortModule, MatTableModule
+    MatSortModule, MatTableModule, MatNativeDateModule
 } from "@angular/material";
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -22,6 +22,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
             MatTableModule,
             MatPaginatorModule,
             MatSortModule,
+            MatNativeDateModule,
             MatProgressSpinnerModule,
             MatButtonModule,
             MatCheckboxModule,
@@ -32,13 +33,14 @@ import { MatFormFieldModule } from '@angular/material/form-field';
             MatDatepickerModule,
             MatAutocompleteModule,
             TagInputModule,
-            MatFormFieldModule
+            MatFormFieldModule,
         ],
     exports: [
         MatInputModule,
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+        MatNativeDateModule,
         MatProgressSpinnerModule,
         MatButtonModule,
         MatCheckboxModule,
@@ -49,7 +51,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
         MatDatepickerModule,
         MatAutocompleteModule,
         TagInputModule,
-        MatFormFieldModule
+        MatFormFieldModule,
     ]
 })
 

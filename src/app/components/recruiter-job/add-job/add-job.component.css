@@ -1,6 +1,6 @@
 .full-width {
     width: 40%;
-    margin-left: 5%;
+    margin-left: 8%;
     float: left;
 }
 
@@ -21,4 +21,10 @@ mat-dialog-actions button {
 .save-job{
     margin-top: 50px;
     width: 20%;
+}
+
+.mce-tinymce {
+    width: 55% !important;
+    position: absolute !important;
+    top: 60% !important;
 }
