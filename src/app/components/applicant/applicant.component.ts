@@ -59,6 +59,10 @@ export class ApplicantComponent {
         }, error => { console.log(error); this.loading = false });
     }
 
+    exportUser() {
+        this.userService.exportAsExcelFile(this.dataSource.filteredData, 'user');
+    }
+
     rowClicked(row: any): void {
         console.log(row);
     }

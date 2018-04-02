@@ -14,6 +14,7 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase } from 'angularfire2/database';
+import { AngularFireStorageModule } from 'angularfire2/storage';
 import { MatDatepicker } from '@angular/material';
 import { EditorModule } from '@tinymce/tinymce-angular';
 
@@ -36,9 +37,14 @@ import { JobDetailComponent } from './components/recruiter-job/job-detail/job-de
 import { FIREBASE_CONFIG } from './configs/constant';
 import { JobService } from './services/job/job.service';
 import { AddJobComponent } from './components/recruiter-job/add-job/add-job.component';
+import { ManagerFileComponent } from './components/manager-file/manager-file.component';
+import { FileService } from './services/file/file.service';
+import { ContactService } from './services/contact/contact.service';
+import { ContactComponent } from './components/contact/contact.component';
+import { StatisticalService } from './services/statistical/statistical.service';
 
 const appRoutes: Routes = [
-    { path: 'admin', component: StatisticalComponent },
+    { path: 'admin', component: ManagerFileComponent },
     { path: 'applicant', component: ApplicantComponent },
     { path: 'recruiter', component: RecruiterComponent },
     { path: 'job-applicant', component: ApplicantJobComponent },
@@ -46,6 +52,7 @@ const appRoutes: Routes = [
     { path: 'statistical', component: StatisticalComponent },
     { path: 'login', component: LoginComponent },
     { path: 'signup', component: SignupComponent },
+    { path: 'contact', component: ContactComponent },
     {
         path: '',
         redirectTo: '/admin',
@@ -72,6 +79,8 @@ const appRoutes: Routes = [
         UserDetailComponent,
         JobDetailComponent,
         AddJobComponent,
+        ManagerFileComponent,
+        ContactComponent,
     ],
     entryComponents: [UserDetailComponent, JobDetailComponent, AddJobComponent],
     imports: [
@@ -86,6 +95,7 @@ const appRoutes: Routes = [
         NoopAnimationsModule,
         AngularFireModule.initializeApp(FIREBASE_CONFIG),
         AngularFireAuthModule,
+        AngularFireStorageModule,
         LoadingModule.forRoot({
             animationType: ANIMATION_TYPES.wanderingCubes,
             backdropBackgroundColour: 'rgba(0,0,0,0.1)',
@@ -100,6 +110,9 @@ const appRoutes: Routes = [
     providers: [
         UserService,
         JobService,
+        FileService,
+        ContactService,
+        StatisticalService,
         AngularFireAuth,
         AngularFireDatabase,
         MatDatepicker],

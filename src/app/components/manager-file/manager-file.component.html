@@ -1,0 +1,12 @@
+<button mat-raised-button color="primary" (click)="fileInput.click()">Click</button>
+  <input #fileInput type="file" (change)="chooseFiles($event)" style="display:none;" />
+ 
+<img style="height: 400px; width: 400px;" src="{{imgsrc | async}}">
+ 
+<div> {{ progressBarValue }}</div>
+ 
+<mat-progress-bar
+    [color]="color"
+    [mode]="mode"
+    [value]="progressBarValue">
+</mat-progress-bar>

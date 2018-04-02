@@ -7,7 +7,6 @@
     flex: 0 0 150px !important;
     text-align: center;
 }
-
 .user-table .action-table button {
     margin: 2%;
 }
@@ -15,3 +14,10 @@
     width: 50%;
     margin: 5%;
 }
+.btn-export {
+    float: right;
+}
+.search{
+    width: 50% !important;
+}
+
