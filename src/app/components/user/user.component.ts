@@ -12,13 +12,13 @@ import { UserService } from '../../services/user/user.service';
 import { User } from "../../models/user";
 
 @Component({
-    selector: 'app-applicant',
-    templateUrl: './applicant.component.html',
-    styleUrls: ['./applicant.component.css']
+    selector: 'user-component',
+    templateUrl: './user.component.html',
+    styleUrls: ['./user.component.css']
 })
-export class ApplicantComponent {
-    tableName = "Applicant Table";
-    tableTitle = "This is list applicant";
+export class UserComponent {
+    tableName = "User Table";
+    tableTitle = "This is list user";
     displayedColumns = ['name', 'email', 'avatar', 'school', 'speciality', 'role', 'action'];
     dataSource: any;
     user: any;

@@ -3,6 +3,7 @@ import { FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms'
 import { AsyncLocalStorage } from 'angular-async-local-storage';
 import { ToastrService } from 'ngx-toastr';
 import { } from 'ngx-loading';
+import { AngularFireStorage } from 'angularfire2/storage';
 
 import * as $ from 'jquery';
 
@@ -18,8 +19,12 @@ export class UpdateUserComponent implements OnInit {
     formUser: any;
     user: any;
     showSpinner = false;
+    selectedFiles: FileList;
+    file: File;
+
+
     constructor(private userService: UserService, private formBuilder: FormBuilder,
-        private localStorage: AsyncLocalStorage, private toastService: ToastrService) {
+        private localStorage: AsyncLocalStorage, private toastService: ToastrService, private storage: AngularFireStorage) {
         this.localStorage.getItem('user').subscribe(user => {
             this.user = user;
             this.formUser = this.formBuilder.group({
@@ -34,7 +39,11 @@ export class UpdateUserComponent implements OnInit {
                 street: new FormControl(user.address.street),
                 description: new FormControl(user.description)
             });
+            if (!this.user.avatar_url) {
+                this.user.avatar_url = "";
+            }
         });
+
         this.formUser = this.formBuilder.group({
             name: new FormControl(),
             email: new FormControl(),
@@ -49,7 +58,6 @@ export class UpdateUserComponent implements OnInit {
     }
 
     ngOnInit() {
-
     }
 
     update() {
@@ -77,4 +85,24 @@ export class UpdateUserComponent implements OnInit {
             .catch(error => { console.log(error); this.showSpinner = false });
     }
 
+    chooseFiles(event) {
+        this.selectedFiles = event.target.files;
+        if (this.selectedFiles.item(0)) {
+            this.uploadpic();
+        }
+    }
+
+    uploadpic() {
+        let file = this.selectedFiles.item(0);
+        let uniqkey = 'pic' + Math.floor(Math.random() * 1000000);
+        this.storage.upload('/images/' + uniqkey, file).then((uploadTask) => {
+            this.user.avatar_url = uploadTask.downloadURL;
+            this.userService.update(this.user).then(error => {
+                if (!error) {
+                    this.toastService.success('Upload avatar successfully!', 'success');
+                    this.localStorage.setItem('user', this.user).subscribe();
+                }
+            });
+        });
+    }
 }

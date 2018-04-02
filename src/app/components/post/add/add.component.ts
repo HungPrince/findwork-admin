@@ -11,16 +11,16 @@ import * as $ from 'jquery';
 import { Moment } from 'moment';
 import * as moment from 'moment';
 
-import { JobService } from '../../../services/job/job.service';
+import { PostService } from '../../../services/post/post.service';
 import { UntilHelper } from '../../../helpers/until.helper';
 
 @Component({
-    selector: 'app-add-job',
-    templateUrl: './add-job.component.html',
-    styleUrls: ['./add-job.component.css']
+    selector: 'app-add',
+    templateUrl: './add.component.html',
+    styleUrls: ['./add.component.css']
 })
 
-export class AddJobComponent implements OnInit {
+export class AddPostComponent implements OnInit {
     @ViewChild(MatDatepicker) dateFrom: MatDatepicker<Moment>;
     @ViewChild(MatDatepicker) dateTo: MatDatepicker<Moment>;
     types = TYPES;
@@ -35,7 +35,7 @@ export class AddJobComponent implements OnInit {
 
     showSpinder = false;
 
-    constructor(private frmbuider: FormBuilder, private jobService: JobService,
+    constructor(private frmbuider: FormBuilder, private PostService: PostService,
         private untilHelper: UntilHelper, private toastrService: ToastrService) {
 
         this.cities = [];
@@ -121,7 +121,6 @@ export class AddJobComponent implements OnInit {
             this.job.address = {};
         }
         let valueJob = this.formJob.value;
-        console.log(moment(valueJob.dateFrom).format('LLL'));
         this.job.company = this.untilHelper.niceString(valueJob.company);
         this.job.title = this.untilHelper.niceString(valueJob.title);
         this.job.address.city = valueJob.city;
@@ -134,7 +133,7 @@ export class AddJobComponent implements OnInit {
         this.job.dateTo = moment(valueJob.dateTo).format('ll');
         this.job.description = valueJob.description;
         this.job.createdAt = Date.now();
-        this.jobService.add(this.job).then((success) => {
+        this.PostService.add(this.job).then((success) => {
             if (success.key) {
                 this.toastrService.success("Create the post is successfully!", "Success");
                 $('.btn-close').trigger('click');

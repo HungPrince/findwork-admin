@@ -14,7 +14,6 @@ export class AppComponent implements OnInit {
     title = 'app';
 
     constructor(private fileService: FileService) {
-        console.log(this.fileService.getAll());
     }
 
     ngOnInit() {

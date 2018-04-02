@@ -1,18 +1,18 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
-import { JobService } from '../../services/job/job.service';
+import { PostService } from '../../services/post/post.service';
 import { MatPaginator, MatSort, MatTableDataSource, MatDialog } from '@angular/material';
 
-import { JobDetailComponent } from '../recruiter-job/job-detail/job-detail.component';
-import { AddJobComponent } from '../recruiter-job/add-job/add-job.component';
+import { DetailPostComponent } from '../post/detail/detail.component';
+import { AddPostComponent } from '../post/add/add.component';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-    selector: 'app-recruiter-job',
-    templateUrl: './recruiter-job.component.html',
-    styleUrls: ['./recruiter-job.component.css']
+    selector: 'app-post',
+    templateUrl: './post.component.html',
+    styleUrls: ['./post.component.css']
 })
-export class RecruiterJobComponent implements OnInit {
+export class PostComponent implements OnInit {
     private tableName = "Post Table";
     private tableTitle = "This is list post";
     private loading = false;
@@ -22,11 +22,11 @@ export class RecruiterJobComponent implements OnInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
 
-    constructor(private jobService: JobService, private matDialog: MatDialog,
+    constructor(private postService: PostService, private matDialog: MatDialog,
         private toastrService: ToastrService) {
         this.loading = true;
 
-        jobService.getAll().subscribe(data => {
+        postService.getAll().subscribe(data => {
             this.loading = false;
             this.dataSource = new MatTableDataSource(data);
             this.dataSource.paginator = this.paginator;
@@ -47,7 +47,7 @@ export class RecruiterJobComponent implements OnInit {
     }
 
     detailClicked(job) {
-        let dialogDetail = this.matDialog.open(JobDetailComponent, {
+        let dialogDetail = this.matDialog.open(DetailPostComponent, {
             data: job,
             width: '60%',
             height: '80%'
@@ -59,7 +59,7 @@ export class RecruiterJobComponent implements OnInit {
     }
 
     addClicked() {
-        let dialogAdd = this.matDialog.open(AddJobComponent, {
+        let dialogAdd = this.matDialog.open(AddPostComponent, {
             width: '60%',
             height: '100%'
         });
@@ -71,7 +71,7 @@ export class RecruiterJobComponent implements OnInit {
 
 }
 
-export class JobDataSource {
+export class PostDataSource {
     company: string;
     title: string;
     type: string;

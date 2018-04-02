@@ -21,7 +21,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { AsyncLocalStorageModule } from 'angular-async-local-storage';
 
 import { FIREBASE_CONFIG } from './configs/constant';
-import { JobService } from './services/job/job.service';
+import { PostService } from './services/post/post.service';
 import { UntilHelper } from './helpers/until.helper';
 import { MomentPipe } from './pipes/moment.pipe';
 
@@ -29,19 +29,17 @@ import { AppComponent } from './app.component';
 import { SidebarComponent } from './components/shares/sidebar/sidebar.component';
 import { PageNotFoundComponentComponent } from './components/page-not-found-component/page-not-found-component.component';
 import { StatisticalComponent } from './components/statistical/statistical.component';
-import { ApplicantComponent } from './components/applicant/applicant.component';
+import { UserComponent } from './components/user/user.component';
 import { UserService } from './services/user/user.service';
 import { NavigationComponent } from './components/shares/navigation/navigation.component';
 import { FooterComponent } from './components/shares/footer/footer.component';
-import { RecruiterComponent } from './components/recruiter/recruiter.component';
-import { RecruiterJobComponent } from './components/recruiter-job/recruiter-job.component';
-import { ApplicantJobComponent } from './components/applicant-job/applicant-job.component'
+import { PostComponent } from './components/post/post.component';
 import { LoginComponent } from './components/login/login.component';
 import { SignupComponent } from './components/signup/signup.component';
-import { UserDetailComponent } from './components/applicant/user-detail/user-detail.component';
-import { JobDetailComponent } from './components/recruiter-job/job-detail/job-detail.component';
-import { AddJobComponent } from './components/recruiter-job/add-job/add-job.component';
-import { UpdateUserComponent } from './components/applicant/update-user/update-user.component';
+import { UserDetailComponent } from './components/user/user-detail/user-detail.component';
+import { DetailPostComponent } from './components/post/detail/detail.component';
+import { AddPostComponent } from './components/post/add/add.component';
+import { UpdateUserComponent } from './components/user/update-user/update-user.component';
 import { LogoutComponent } from './components/logout/logout.component';
 import { ManagerFileComponent } from './components/manager-file/manager-file.component';
 import { FileService } from './services/file/file.service';
@@ -50,12 +48,9 @@ import { ContactComponent } from './components/contact/contact.component';
 import { StatisticalService } from './services/statistical/statistical.service';
 
 const appRoutes: Routes = [
-    { path: 'admin', component: ManagerFileComponent },
-    { path: 'applicant', component: ApplicantComponent },
-    { path: 'recruiter', component: RecruiterComponent },
-    { path: 'job-applicant', component: ApplicantJobComponent },
-    { path: 'job-recruiter', component: RecruiterJobComponent },
-    { path: 'statistical', component: StatisticalComponent },
+    { path: 'admin', component: StatisticalComponent },
+    { path: 'user', component: UserComponent },
+    { path: 'post', component: PostComponent },
     { path: 'login', component: LoginComponent },
     { path: 'signup', component: SignupComponent },
     { path: 'logout', component: LogoutComponent },
@@ -76,24 +71,22 @@ const appRoutes: Routes = [
         SidebarComponent,
         PageNotFoundComponentComponent,
         StatisticalComponent,
-        ApplicantComponent,
+        UserComponent,
         NavigationComponent,
         FooterComponent,
-        RecruiterComponent,
-        RecruiterJobComponent,
-        ApplicantJobComponent,
+        PostComponent,
         LoginComponent,
         SignupComponent,
         UserDetailComponent,
-        JobDetailComponent,
-        AddJobComponent,
+        DetailPostComponent,
+        AddPostComponent,
         MomentPipe,
         UpdateUserComponent,
         LogoutComponent,
         ManagerFileComponent,
         ContactComponent,
     ],
-    entryComponents: [UserDetailComponent, JobDetailComponent, AddJobComponent],
+    entryComponents: [UserDetailComponent, DetailPostComponent, AddPostComponent],
     imports: [
         RouterModule.forRoot(
             appRoutes,
@@ -122,7 +115,7 @@ const appRoutes: Routes = [
     ],
     providers: [
         UserService,
-        JobService,
+        PostService,
         FileService,
         ContactService,
         StatisticalService,

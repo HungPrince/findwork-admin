@@ -3,7 +3,7 @@ import { AngularFireDatabase } from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
-export class JobService {
+export class PostService {
 
     constructor(public af: AngularFireDatabase) {
 

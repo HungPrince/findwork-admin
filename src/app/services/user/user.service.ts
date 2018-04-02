@@ -14,8 +14,6 @@ import { User } from "./../../models/user";
 @Injectable()
 export class UserService {
 
-    public user: any;
-
     private EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
     private EXCEL_EXTENSION = '.xlsx';
     constructor(public afAuth: AngularFireAuth, public af: AngularFireDatabase,

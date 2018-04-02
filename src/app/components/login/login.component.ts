@@ -19,10 +19,9 @@ export class LoginComponent implements OnInit {
         private userService: UserService, private localStorage: AsyncLocalStorage) {
 
         this.localStorage.getItem('user').subscribe(data => {
-           if(data){
-               this.userService.user = data;
-               router.navigateByUrl('/admin');
-           }
+            if (data) {
+                router.navigateByUrl('/admin');
+            }
         });
         this.loginForm = frmbuider.group({
             email: new FormControl(),
@@ -37,8 +36,6 @@ export class LoginComponent implements OnInit {
                 user = data.val();
                 user.uid = result.uid;
                 this.localStorage.setItem('user', user).subscribe(data => {
-                    this.userService.user = user;
-                    console.log(data);
                 });
             });
 

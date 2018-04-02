@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row" *ngIf="user">
     <div class="col-md-8">
         <div class="card">
             <div class="card-header" data-background-color="purple">
@@ -11,8 +11,8 @@
                     <div class="row">
                         <div class="col-md-5">
                             <div class="form-group label-floating is-empty">
-                                <label>Company (disabled)</label>
-                                <input formControlName="name" name="name" type="text" class="form-control" disabled="">
+                                <label>Full Name</label>
+                                <input formControlName="name" name="name" type="text" class="form-control">
                                 <span class="material-input"></span>
                             </div>
                         </div>
@@ -100,10 +100,13 @@
     <div class="col-md-4">
         <div class="card card-profile">
             <div class="card-avatar">
-                <a href="#pablo">
-                    <img class="img" src="../assets/img/faces/marc.jpg">
+                <a href="#">
+                    <img *ngIf="!user.avatar_url" class="img" src="../assets/img/faces/marc.jpg">
+                    <img *ngIf="user.avatar_url" class="img" [src]="user.avatar_url">
                 </a>
             </div>
+            <button mat-raised-button color="primary" class="btn-update-avatar" (click)="fileInput.click()">Update avatar</button>
+            <input #fileInput type="file" (change)="chooseFiles($event)" style="display:none;" />
             <div class="content">
                 <h6 class="category text-gray">CEO / Co-Founder</h6>
                 <h4 class="card-title">Alec Thompson</h4>
