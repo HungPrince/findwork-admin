@@ -16,6 +16,13 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { MatDatepicker } from '@angular/material';
 import { EditorModule } from '@tinymce/tinymce-angular';
+import { ToastrModule } from 'ngx-toastr';
+import { AsyncLocalStorageModule } from 'angular-async-local-storage';
+
+import { FIREBASE_CONFIG } from './configs/constant';
+import { JobService } from './services/job/job.service';
+import { UntilHelper } from './helpers/until.helper';
+import { MomentPipe } from './pipes/moment.pipe';
 
 import { AppComponent } from './app.component';
 import { SidebarComponent } from './components/shares/sidebar/sidebar.component';
@@ -32,10 +39,9 @@ import { LoginComponent } from './components/login/login.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { UserDetailComponent } from './components/applicant/user-detail/user-detail.component';
 import { JobDetailComponent } from './components/recruiter-job/job-detail/job-detail.component';
-
-import { FIREBASE_CONFIG } from './configs/constant';
-import { JobService } from './services/job/job.service';
 import { AddJobComponent } from './components/recruiter-job/add-job/add-job.component';
+import { UpdateUserComponent } from './components/applicant/update-user/update-user.component';
+import { LogoutComponent } from './components/logout/logout.component';
 
 const appRoutes: Routes = [
     { path: 'admin', component: StatisticalComponent },
@@ -46,6 +52,8 @@ const appRoutes: Routes = [
     { path: 'statistical', component: StatisticalComponent },
     { path: 'login', component: LoginComponent },
     { path: 'signup', component: SignupComponent },
+    { path: 'logout', component: LogoutComponent },
+    { path: 'update-profile', component: UpdateUserComponent },
     {
         path: '',
         redirectTo: '/admin',
@@ -72,6 +80,9 @@ const appRoutes: Routes = [
         UserDetailComponent,
         JobDetailComponent,
         AddJobComponent,
+        MomentPipe,
+        UpdateUserComponent,
+        LogoutComponent,
     ],
     entryComponents: [UserDetailComponent, JobDetailComponent, AddJobComponent],
     imports: [
@@ -96,13 +107,17 @@ const appRoutes: Routes = [
         }),
         MaterialModule,
         EditorModule,
+        ToastrModule.forRoot(),
+        AsyncLocalStorageModule
     ],
     providers: [
         UserService,
         JobService,
         AngularFireAuth,
         AngularFireDatabase,
-        MatDatepicker],
+        MatDatepicker,
+        UntilHelper
+    ],
     bootstrap: [AppComponent],
 })
 

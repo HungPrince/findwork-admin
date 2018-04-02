@@ -5,6 +5,7 @@ import { MatPaginator, MatSort, MatTableDataSource, MatDialog } from '@angular/m
 
 import { JobDetailComponent } from '../recruiter-job/job-detail/job-detail.component';
 import { AddJobComponent } from '../recruiter-job/add-job/add-job.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'app-recruiter-job',
@@ -21,8 +22,10 @@ export class RecruiterJobComponent implements OnInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
 
-    constructor(private jobService: JobService, private matDialog: MatDialog) {
+    constructor(private jobService: JobService, private matDialog: MatDialog,
+        private toastrService: ToastrService) {
         this.loading = true;
+
         jobService.getAll().subscribe(data => {
             this.loading = false;
             this.dataSource = new MatTableDataSource(data);
@@ -58,7 +61,7 @@ export class RecruiterJobComponent implements OnInit {
     addClicked() {
         let dialogAdd = this.matDialog.open(AddJobComponent, {
             width: '60%',
-            height: '80%'
+            height: '100%'
         });
 
         dialogAdd.afterClosed().subscribe(result => {

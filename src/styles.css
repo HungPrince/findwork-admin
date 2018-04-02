@@ -1,8 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
+nav.navbar{
+    z-index: 99 !important;
+}
+
 tag-input tag-input-dropdown ng2-dropdown div.ng2-dropdown-menu {
     z-index: 1000;
     top: inherit !important;
     left: inherit !important;
 }
+
+.mce-tinymce {
+    bottom: 5% ;
+    margin-left: 4% !important;
+    width: 50% !important;
+    position: fixed !important;
+    height: 200px !important;
+    z-index: 1 !important;
+}
+
+

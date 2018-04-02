@@ -5,8 +5,14 @@ import { Observable } from '@firebase/util/dist/esm/src/subscribe';
 import { map } from 'rxjs/operators/map';
 import { startWith } from 'rxjs/operators/startWith';
 import { MatDatepicker } from '@angular/material';
+import { ToastrService } from 'ngx-toastr';
+
+import * as $ from 'jquery';
 import { Moment } from 'moment';
 import * as moment from 'moment';
+
+import { JobService } from '../../../services/job/job.service';
+import { UntilHelper } from '../../../helpers/until.helper';
 
 @Component({
     selector: 'app-add-job',
@@ -25,7 +31,13 @@ export class AddJobComponent implements OnInit {
     formJob: FormGroup;
     citySearch: any;
     districtSearch: any;
-    constructor(private frmbuider: FormBuilder) {
+    job: any = {};
+
+    showSpinder = false;
+
+    constructor(private frmbuider: FormBuilder, private jobService: JobService,
+        private untilHelper: UntilHelper, private toastrService: ToastrService) {
+
         this.cities = [];
         CITIES.forEach(city => {
             for (let key in city) {
@@ -38,15 +50,15 @@ export class AddJobComponent implements OnInit {
         });
 
         this.formJob = frmbuider.group({
-            company: new FormControl(),
-            title: new FormControl(),
-            function: new FormControl(),
-            website: new FormControl(),
-            type: new FormControl(),
-            city: new FormControl(),
-            street: new FormControl(),
-            district: new FormControl(),
-            description: new FormControl(),
+            company: new FormControl('', Validators.required),
+            title: new FormControl('', Validators.required),
+            function: new FormControl('', Validators.required),
+            website: new FormControl('', Validators.required),
+            type: new FormControl('', Validators.required),
+            city: new FormControl('', Validators.required),
+            street: new FormControl('', Validators.required),
+            district: new FormControl('', Validators.required),
+            description: new FormControl('', Validators.required),
             dateFrom: new FormControl(new Date()),
             dateTo: new FormControl(new Date())
         });
@@ -57,7 +69,6 @@ export class AddJobComponent implements OnInit {
     }
 
     changeCity(city) {
-        console.log(city);
         this.districts = [];
         DISTRICTS.forEach(district => {
             for (let key in district) {
@@ -102,5 +113,35 @@ export class AddJobComponent implements OnInit {
         if (listDistrict) {
             this.districts = listDistrict;
         }
+    }
+
+    save() {
+        this.showSpinder = true;
+        if (!this.job.key) {
+            this.job.address = {};
+        }
+        let valueJob = this.formJob.value;
+        console.log(moment(valueJob.dateFrom).format('LLL'));
+        this.job.company = this.untilHelper.niceString(valueJob.company);
+        this.job.title = this.untilHelper.niceString(valueJob.title);
+        this.job.address.city = valueJob.city;
+        this.job.address.district = valueJob.district;
+        this.job.address.street = valueJob.street;
+        this.job.function = valueJob.function;
+        this.job.type = valueJob.type;
+        this.job.website = this.untilHelper.niceString(valueJob.website);
+        this.job.dateFrom = moment(valueJob.dateFrom).format('ll');
+        this.job.dateTo = moment(valueJob.dateTo).format('ll');
+        this.job.description = valueJob.description;
+        this.job.createdAt = Date.now();
+        this.jobService.add(this.job).then((success) => {
+            if (success.key) {
+                this.toastrService.success("Create the post is successfully!", "Success");
+                $('.btn-close').trigger('click');
+            } else {
+                this.toastrService.error("Something went wrong!", "Error");
+            }
+            this.showSpinder = false;
+        }, error => { console.log(error); this.showSpinder = false }).catch((error) => { console.log(error); this.showSpinder = false });
     }
 }

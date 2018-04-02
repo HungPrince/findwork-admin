@@ -3,28 +3,29 @@
     margin-left: 8%;
     float: left;
 }
-
-mat-dialog-actions{
-    width: 40px;
-    margin-top: -70px;
-    float: right;
-    background: transparent !important;
-}
 mat-dialog-actions button {
     background: transparent !important;
 }
 
-.job-modal-add h2{
+h2{
     text-align: center;
+    margin-bottom: 10px;
 }
 
-.save-job{
-    margin-top: 50px;
-    width: 20%;
+button.btn-save {
+    left: 65%;
+    margin-top: -10%;
+    margin-right: 4%;
 }
 
-.mce-tinymce {
-    width: 55% !important;
-    position: absolute !important;
-    top: 60% !important;
+button.btn-close {
+    display: inline-block;
+    margin-top: -10%;
+    margin-left: 7%;
 }
+
+.spinner{
+    margin: auto;
+}
+
+

@@ -14,4 +14,8 @@ export class JobService {
             .map(jobs => { return jobs.map(job => ({ key: job.key, ...job.payload.val() })) });
     }
 
+    add(job: any): any {
+        return this.af.database.ref('jobs').push(job);
+    }
+
 }
