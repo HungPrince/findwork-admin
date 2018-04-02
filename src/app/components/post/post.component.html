@@ -3,8 +3,8 @@
         <div class="panel panel-default">
             <div class="card">
                 <div class="card-header" data-background-color="purple">
-                    <h4 class="title"> {{ tableName}}</h4>
-                    <p class="category">{{tableTitle}} </p>
+                    <h4 class="title"> {{ tableName }}</h4>
+                    <p class="category">{{ tableTitle }} </p>
                 </div>
             </div>
 
@@ -23,59 +23,59 @@
 
                         <ng-container matColumnDef="company">
                             <mat-header-cell *matHeaderCellDef mat-sort-header>Company Name </mat-header-cell>
-                            <mat-cell *matCellDef="let job"> {{job.company}} </mat-cell>
+                            <mat-cell *matCellDef="let post"> {{ post.company }} </mat-cell>
                         </ng-container>
 
                         <ng-container matColumnDef="title">
                             <mat-header-cell *matHeaderCellDef mat-sort-header> Title </mat-header-cell>
-                            <mat-cell *matCellDef="let job"> {{job.title}} </mat-cell>
+                            <mat-cell *matCellDef="let post"> {{ post.title }} </mat-cell>
                         </ng-container>
 
                         <ng-container matColumnDef="type">
                             <mat-header-cell *matHeaderCellDef mat-sort-header> Type </mat-header-cell>
-                            <mat-cell *matCellDef="let job">
-                                {{job.type}}
+                            <mat-cell *matCellDef="let post">
+                                {{ post.type }}
                             </mat-cell>
                         </ng-container>
 
 
                         <ng-container matColumnDef="function">
                             <mat-header-cell *matHeaderCellDef> Function </mat-header-cell>
-                            <mat-cell *matCellDef="let job">
-                                <span *ngFor="let func of job.function">{{func.value}} | </span>
+                            <mat-cell *matCellDef="let post">
+                                <span *ngFor="let func of post.function">{{ func.value }} | </span>
                             </mat-cell>
                         </ng-container>
 
                         <ng-container matColumnDef="website">
                             <mat-header-cell *matHeaderCellDef> website </mat-header-cell>
-                            <mat-cell *matCellDef="let job"> {{job.website}} </mat-cell>
+                            <mat-cell *matCellDef="let post"> {{ post.website }} </mat-cell>
                         </ng-container>
 
                         <ng-container matColumnDef="address">
                             <mat-header-cell *matHeaderCellDef> address </mat-header-cell>
-                            <mat-cell *matCellDef="let job"> {{job.address.city}}, {{job.address.district}}, {{job.address.street}} </mat-cell>
+                            <mat-cell *matCellDef="let post"> {{ post.address.city }}, {{ post.address.district }}, {{ post.address.street }} </mat-cell>
                         </ng-container>
 
                         <ng-container matColumnDef="dateFrom">
                             <mat-header-cell *matHeaderCellDef> Date From </mat-header-cell>
-                            <mat-cell *matCellDef="let job"> {{job.dateFrom}} </mat-cell>
+                            <mat-cell *matCellDef="let post"> {{ post.dateFrom }} </mat-cell>
                         </ng-container>
 
                         <ng-container matColumnDef="dateTo">
                             <mat-header-cell *matHeaderCellDef> Date To </mat-header-cell>
-                            <mat-cell *matCellDef="let job"> {{job.dateTo}} </mat-cell>
+                            <mat-cell *matCellDef="let post"> {{ post.dateTo }} </mat-cell>
                         </ng-container>
 
                         <ng-container matColumnDef="action">
                             <mat-header-cell *matHeaderCellDef class="action-table"> Action </mat-header-cell>
-                            <mat-cell *matCellDef="let job" class="action-table">
-                                <button (click)="editClicked(job)" mat-icon-button color="primary" class="mat-raised-button mat-primary">
+                            <mat-cell *matCellDef="let post" class="action-table">
+                                <button (click)="editClicked(post)" mat-icon-button color="primary" class="mat-raised-button mat-primary">
                                     <mat-icon small>edit</mat-icon>
                                 </button>
-                                <button (click)="detailClicked(job)" mat-icon-button class="mat-raised-button">
+                                <button (click)="detailClicked(post)" mat-icon-button class="mat-raised-button">
                                     <mat-icon small>storage</mat-icon>
                                 </button>
-                                <button (click)="deleteClicked(job)" mat-icon-button color="warn" class="mat-raised-button mat-warn">
+                                <button (click)="deleteClicked(post)" mat-icon-button color="warn" class="mat-raised-button mat-warn">
                                     <mat-icon small>delete</mat-icon>
                                 </button>
                             </mat-cell>
@@ -92,4 +92,3 @@
         </div>
     </div>
 </div>
-

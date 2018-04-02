@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { TYPES, CITIES, DISTRICTS, STREETS, FUNCTION_JOB } from '../../../configs/data';
 import { FormBuilder, FormGroup, FormControl, Validators, NgForm } from '@angular/forms';
 import { Observable } from '@firebase/util/dist/esm/src/subscribe';
@@ -23,6 +23,8 @@ import { UntilHelper } from '../../../helpers/until.helper';
 export class AddPostComponent implements OnInit {
     @ViewChild(MatDatepicker) dateFrom: MatDatepicker<Moment>;
     @ViewChild(MatDatepicker) dateTo: MatDatepicker<Moment>;
+    @ViewChild('elementToFocusDateFrom') _input: ElementRef;
+    @ViewChild('elementToFocusDateTo') _input1: ElementRef;
     types = TYPES;
     cities: any;
     districts: any;
@@ -66,6 +68,16 @@ export class AddPostComponent implements OnInit {
 
     ngOnInit() {
 
+    }
+
+    _openDateFromCalendar(picker: MatDatepicker<Date>) {
+        picker.open();
+        setTimeout(() => this._input.nativeElement.focus());
+    }
+
+    _openDateToCalendar(picker: MatDatepicker<Date>) {
+        picker.open();
+        setTimeout(() => this._input1.nativeElement.focus());
     }
 
     changeCity(city) {

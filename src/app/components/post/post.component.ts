@@ -46,9 +46,9 @@ export class PostComponent implements OnInit {
         console.log(row);
     }
 
-    detailClicked(job) {
+    detailClicked(post) {
         let dialogDetail = this.matDialog.open(DetailPostComponent, {
-            data: job,
+            data: post,
             width: '60%',
             height: '80%'
         });

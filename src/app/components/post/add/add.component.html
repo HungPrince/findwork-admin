@@ -48,14 +48,26 @@
             </mat-form-field>
 
             <mat-form-field class="full-width">
-                <input formControlName="dateFrom" name="dateFrom" matInput [matDatepicker]="dateFrom" placeholder="Choose a date from">
-                <mat-datepicker-toggle matSuffix [for]="dateFrom"></mat-datepicker-toggle>
-                <mat-datepicker #dateFrom></mat-datepicker>
+                <input formControlName="dateFrom"
+                 name="dateFrom" matInput
+                 [matDatepicker]="dateFrom"
+                 (focus)="_openDateFromCalendar(dateFrom)"
+                 (click)="_openDateFromCalendar(dateFrom)"
+                 #elementToFocusDateFrom
+                 placeholder="Choose a date from">
+                <mat-datepicker-toggle  matSuffix [for]="dateFrom"></mat-datepicker-toggle>
+                <mat-datepicker id="dateFrom" #dateFrom></mat-datepicker>
             </mat-form-field>
 
             <mat-form-field class="full-width">
-                <input formControlName="dateTo" name="dateTo" matInput [matDatepicker]="dateTo" placeholder="Choose a date to">
-                <mat-datepicker-toggle matSuffix [for]="dateTo"></mat-datepicker-toggle>
+                <input formControlName="dateTo"
+                name="dateTo" matInput
+                [matDatepicker]="dateTo"
+                (click)="_openDateToCalendar(dateTo)"
+                (focus)="_openDateToCalendar(dateTo)"
+                #elementToFocusDateTo
+                placeholder="Choose a date to">
+                <mat-datepicker-toggle id="dateTo" matSuffix [for]="dateTo"></mat-datepicker-toggle>
                 <mat-datepicker #dateTo></mat-datepicker>
             </mat-form-field>
 

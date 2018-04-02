@@ -99,7 +99,9 @@ export class UpdateUserComponent implements OnInit {
             this.user.avatar_url = uploadTask.downloadURL;
             this.userService.update(this.user).then(error => {
                 if (!error) {
-                    this.toastService.success('Upload avatar successfully!', 'success');
+                    this.toastService.success('Upload avatar successfully!', 'success', {
+                        positionClass: 'toast-bottom-right'
+                    });
                     this.localStorage.setItem('user', this.user).subscribe();
                 }
             });

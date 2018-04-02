@@ -10,12 +10,12 @@ export class PostService {
     }
 
     getAll(): Observable<any> {
-        return this.af.list('jobs').snapshotChanges()
-            .map(jobs => { return jobs.map(job => ({ key: job.key, ...job.payload.val() })) });
+        return this.af.list('post').snapshotChanges()
+            .map(posts => { return posts.map(post => ({ key: post.key, ...post.payload.val() })) });
     }
 
-    add(job: any): any {
-        return this.af.database.ref('jobs').push(job);
+    add(post: any): any {
+        return this.af.database.ref('post').push(post);
     }
 
 }
