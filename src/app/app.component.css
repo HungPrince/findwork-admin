@@ -5,4 +5,6 @@
 @import url('../assets/css/morris.css');
 @import url('../assets/css/font-awesome.min.css');
 
-
+div.content-page {
+    min-height: 460px;
+}
