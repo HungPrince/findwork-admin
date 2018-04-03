@@ -21,16 +21,20 @@ import { ToastrModule } from 'ngx-toastr';
 import { AsyncLocalStorageModule } from 'angular-async-local-storage';
 
 import { FIREBASE_CONFIG } from './configs/constant';
-import { PostService } from './services/post/post.service';
-import { UntilHelper } from './helpers/until.helper';
 import { MomentPipe } from './pipes/moment.pipe';
+import { UntilHelper } from './helpers/until.helper';
+import { PostService } from './services/post/post.service';
+import { UserService } from './services/user/user.service';
+import { StatisticalService } from './services/statistical/statistical.service';
+import { FileService } from './services/file/file.service';
+import { ContactService } from './services/contact/contact.service';
+import { MessagingService } from './services/fcm/messaging.service';
 
 import { AppComponent } from './app.component';
 import { SidebarComponent } from './components/shares/sidebar/sidebar.component';
 import { PageNotFoundComponentComponent } from './components/page-not-found-component/page-not-found-component.component';
 import { StatisticalComponent } from './components/statistical/statistical.component';
 import { UserComponent } from './components/user/user.component';
-import { UserService } from './services/user/user.service';
 import { NavigationComponent } from './components/shares/navigation/navigation.component';
 import { FooterComponent } from './components/shares/footer/footer.component';
 import { PostComponent } from './components/post/post.component';
@@ -42,10 +46,9 @@ import { AddPostComponent } from './components/post/add/add.component';
 import { UpdateUserComponent } from './components/user/update-user/update-user.component';
 import { LogoutComponent } from './components/logout/logout.component';
 import { ManagerFileComponent } from './components/manager-file/manager-file.component';
-import { FileService } from './services/file/file.service';
-import { ContactService } from './services/contact/contact.service';
 import { ContactComponent } from './components/contact/contact.component';
-import { StatisticalService } from './services/statistical/statistical.service';
+
+
 
 const appRoutes: Routes = [
     { path: 'admin', component: StatisticalComponent },
@@ -119,6 +122,7 @@ const appRoutes: Routes = [
         FileService,
         ContactService,
         StatisticalService,
+        MessagingService,
         AngularFireAuth,
         AngularFireDatabase,
         MatDatepicker,

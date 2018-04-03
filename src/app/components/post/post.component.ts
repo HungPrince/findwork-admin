@@ -1,11 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
-import { PostService } from '../../services/post/post.service';
+import { ToastrService } from 'ngx-toastr';
 import { MatPaginator, MatSort, MatTableDataSource, MatDialog } from '@angular/material';
 
+import { PostService } from '../../services/post/post.service';
 import { DetailPostComponent } from '../post/detail/detail.component';
 import { AddPostComponent } from '../post/add/add.component';
-import { ToastrService } from 'ngx-toastr';
+import { TYPES, CITIES, DISTRICTS, STREETS, FUNCTION_JOB } from '../../configs/data';
+import { FileService } from '../../services/file/file.service';
+
 
 @Component({
     selector: 'app-post',
@@ -16,21 +19,35 @@ export class PostComponent implements OnInit {
     private tableName = "Post Table";
     private tableTitle = "This is list post";
     private loading = false;
+    private cities: any;
+    types = TYPES;
+    functions = FUNCTION_JOB;
     dataSource: any;
     displayedColumns = ['company', 'title', 'type', 'function', 'website', 'address', 'dateFrom', 'dateTo', 'action'];
-
+    citySearch: any;
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
 
     constructor(private postService: PostService, private matDialog: MatDialog,
-        private toastrService: ToastrService) {
+        private toastrService: ToastrService, private fileService: FileService) {
+        this.cities = [];
+
         this.loading = true;
 
         postService.getAll().subscribe(data => {
-            this.loading = false;
+            CITIES.forEach(city => {
+                for (let key in city) {
+                    this.cities.push({
+                        name: city[key].name_with_type,
+                        code: key
+                    });
+                }
+            });
+            this.citySearch = this.cities;
             this.dataSource = new MatTableDataSource(data);
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
+            this.loading = false;
         }, error => { console.log(error); this.loading = false; })
     }
 
@@ -38,7 +55,31 @@ export class PostComponent implements OnInit {
 
     }
 
-    changDataSoure(keyword: string) {
+    searchCity(keyword) {
+        let search = keyword.trim().toLowerCase();
+        let listCity = this.citySearch.filter(city =>
+            city.name.toLowerCase().indexOf(search) > -1);
+        if (listCity) {
+            this.cities = listCity;
+        } else {
+            this.cities = this.citySearch;
+        }
+        console.log(this.cities);
+    }
+
+    changeType(type) {
+        this.changeData(type);
+    }
+
+    changeCity(city) {
+        this.changeData(city.name);
+    }
+
+    changeDataSoure(keyword: string) {
+        this.changeData(keyword);
+    }
+
+    private changeData(keyword: string) {
         this.dataSource.filter = keyword.trim().toLowerCase();
     }
 
@@ -67,6 +108,22 @@ export class PostComponent implements OnInit {
         dialogAdd.afterClosed().subscribe(result => {
             console.log('close add dialog');
         })
+    }
+
+    editClicked(post) {
+        let dialogEdit = this.matDialog.open(AddPostComponent, {
+            data: post,
+            width: '60%',
+            height: '100%'
+        });
+
+        dialogEdit.afterClosed().subscribe(result => {
+            console.log('close add dialog');
+        });
+    }
+
+    exportPost() {
+        this.fileService.exportAsExcelFile(this.dataSource.filteredData, 'post');
     }
 
 }

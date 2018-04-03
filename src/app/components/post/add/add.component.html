@@ -1,21 +1,21 @@
 <div class="job-modal-add">
-    <h2 mat-dialog-title>Create Post</h2>
+    <h2 mat-dialog-title>{{ actionPost }}</h2>
     <button mat-raised-button mat-dialog-close class="btn-close">Back</button>
-    <button mat-raised-button color="primary" type="submit" (click)="save()" class="primary btn-save" [disabled]="formJob.invalid">Save</button>
+    <button mat-raised-button color="primary" type="submit" (click)="save()" class="primary btn-save" [disabled]="formPost.invalid">Save</button>
     <mat-progress-spinner *ngIf="showSpinder" mode="indeterminate" class="spinner"></mat-progress-spinner>
     <mat-dialog-content>
-        <form [formGroup]="formJob" (ngSubmit)="save()" novalidate>
+        <form [formGroup]="formPost" (ngSubmit)="save()" novalidate>
 
             <mat-form-field class="full-width">
-                <input formControlName="company" type="text" name="company" matInput placeholder="Company name" value="">
+                <input formControlName="company" type="text" name="company" matInput placeholder="Company name">
             </mat-form-field>
 
             <mat-form-field class="full-width">
-                <input formControlName="title" type="text" name="title" matInput placeholder="title" value="">
+                <input formControlName="title" type="text" name="title" matInput placeholder="title">
             </mat-form-field>
 
             <mat-form-field class="full-width">
-                <input formControlName="website" name="website" type="url" matInput placeholder="website" value="">
+                <input formControlName="website" name="website" type="url" matInput placeholder="website">
             </mat-form-field>
 
             <mat-form-field class="full-width">
@@ -39,7 +39,7 @@
             </mat-form-field>
 
             <mat-form-field class="full-width">
-                <input formControlName="street" name="street" type="text" placeholder="Choose street" aria-label="Number" matInput [matAutocomplete]="street">
+                <input formControlName="street" name="street" (keyup)="searchStreet()" type="text" placeholder="Choose street" aria-label="Number" matInput [matAutocomplete]="street">
                 <mat-autocomplete #street="matAutocomplete">
                     <mat-option *ngFor="let street of streets" [value]="street.name">
                         {{ street.name }}

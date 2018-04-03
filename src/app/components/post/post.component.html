@@ -11,11 +11,28 @@
             <div class="panel-body">
                 <div class="dataTable_wrapper">
                     <ngx-loading [show]="loading"></ngx-loading>
+                    <mat-form-field class="search">
+                        <input matInput type="text" placeholder="Search" [(ngModel)]="keyword" name="keyword" (keyup)="changeDataSoure(keyword)">
+                    </mat-form-field>
+                    <mat-form-field class="full-width">
+                        <input [(ngModel)]="city" name="city" type="text" (keyup)="searchCity(city)" placeholder="Choose city" aria-label="Number"
+                            matInput [matAutocomplete]="cityAuto">
+                        <mat-autocomplete #cityAuto="matAutocomplete">
+                            <mat-option *ngFor="let city of cities" [value]="city.name" (click)="changeCity(city)">
+                                {{ city.name }}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <mat-form-field class="full-width">
+                        <mat-select [(ngModel)]="type" name="type" placeholder="Type job">
+                            <mat-option *ngFor="let type of types" [value]="type" (click)="changeType(type)">
+                                {{ type }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
 
-                    <input type="text" class="form-control" placeholder="Search" [(ngModel)]="keyword" name="keyword" (keyup)="changeDataSoure(keyword)"
-                    />
-
-                    <button (click)="addClicked()" mat-icon-button color="primary" class="mat-raised-button mat-primary add">
+                    <button mat-raised-button (click)="exportPost()" color="primary" class="btn-export">Export Post</button>
+                    <button (click)="addClicked()" mat-icon-button color="primary" class="mat-raised-button mat-primary btn-add">
                         <mat-icon small>add</mat-icon>
                     </button>
 

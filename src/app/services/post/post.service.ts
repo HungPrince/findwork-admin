@@ -18,4 +18,8 @@ export class PostService {
         return this.af.database.ref('post').push(post);
     }
 
+    update(post: any): any {
+        return this.af.database.ref(`post/${post.key}`).update(post);
+    }
+
 }

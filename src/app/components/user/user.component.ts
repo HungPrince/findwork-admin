@@ -10,6 +10,7 @@ import { UserDetailComponent } from "./user-detail/user-detail.component";
 
 import { UserService } from '../../services/user/user.service';
 import { User } from "../../models/user";
+import { FileService } from '../../services/file/file.service';
 
 @Component({
     selector: 'user-component',
@@ -28,7 +29,7 @@ export class UserComponent {
 
     public loading = false;
 
-    constructor(private userService: UserService, private dialog: MatDialog) {
+    constructor(private userService: UserService, private dialog: MatDialog, private fileService: FileService) {
         userService.testPagination();
         this.loading = true;
         userService.getAll().subscribe(data => {
@@ -60,7 +61,7 @@ export class UserComponent {
     }
 
     exportUser() {
-        this.userService.exportAsExcelFile(this.dataSource.filteredData, 'user');
+        this.fileService.exportAsExcelFile(this.dataSource.filteredData, 'user');
     }
 
     rowClicked(row: any): void {

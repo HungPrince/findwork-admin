@@ -13,7 +13,7 @@ export class StatisticalService {
     }
 
     countPost(): any {
-        return this.af.list('jobs').valueChanges();
+        return this.af.list('posts').valueChanges();
     }
 
 }

@@ -1,10 +1,10 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Inject } from '@angular/core';
 import { TYPES, CITIES, DISTRICTS, STREETS, FUNCTION_JOB } from '../../../configs/data';
 import { FormBuilder, FormGroup, FormControl, Validators, NgForm } from '@angular/forms';
 import { Observable } from '@firebase/util/dist/esm/src/subscribe';
 import { map } from 'rxjs/operators/map';
 import { startWith } from 'rxjs/operators/startWith';
-import { MatDatepicker } from '@angular/material';
+import { MatDatepicker, MAT_DIALOG_DATA } from '@angular/material';
 import { ToastrService } from 'ngx-toastr';
 
 import * as $ from 'jquery';
@@ -30,15 +30,51 @@ export class AddPostComponent implements OnInit {
     districts: any;
     streets: any;
     functions = FUNCTION_JOB;
-    formJob: FormGroup;
+    formPost: FormGroup;
     citySearch: any;
     districtSearch: any;
-    job: any = {};
+    streetSearch: any;
+    post: any = {};
+    actionPost: string;
 
     showSpinder = false;
 
-    constructor(private frmbuider: FormBuilder, private PostService: PostService,
-        private untilHelper: UntilHelper, private toastrService: ToastrService) {
+    constructor(private frmbuider: FormBuilder, private postService: PostService,
+        private untilHelper: UntilHelper, private toastrService: ToastrService, @Inject(MAT_DIALOG_DATA) public data: any) {
+        if (data) {
+            this.changeCity(data.city);
+            this.changeDistrict(this.data.address.district);
+            this.actionPost = "Update Post";
+            this.formPost = frmbuider.group({
+                key: new FormControl(data.key),
+                company: new FormControl(data.company, Validators.required),
+                title: new FormControl(data.title, Validators.required),
+                function: new FormControl(data.function, Validators.required),
+                website: new FormControl(data.website, Validators.required),
+                type: new FormControl(data.type, Validators.required),
+                city: new FormControl(data.city, Validators.required),
+                district: new FormControl(data.address.district, Validators.required),
+                street: new FormControl(data.address.street, Validators.required),
+                description: new FormControl(data.description, Validators.required),
+                dateFrom: new FormControl(new Date(data.dateFrom)),
+                dateTo: new FormControl(new Date(data.dateTo))
+            });
+        } else {
+            this.actionPost = "Create Post";
+            this.formPost = frmbuider.group({
+                company: new FormControl('', Validators.required),
+                title: new FormControl('', Validators.required),
+                function: new FormControl('', Validators.required),
+                website: new FormControl('', Validators.required),
+                type: new FormControl('', Validators.required),
+                city: new FormControl('', Validators.required),
+                street: new FormControl('', Validators.required),
+                district: new FormControl('', Validators.required),
+                description: new FormControl('', Validators.required),
+                dateFrom: new FormControl(new Date()),
+                dateTo: new FormControl(new Date())
+            });
+        }
 
         this.cities = [];
         CITIES.forEach(city => {
@@ -49,20 +85,6 @@ export class AddPostComponent implements OnInit {
                 });
             }
             this.citySearch = this.cities;
-        });
-
-        this.formJob = frmbuider.group({
-            company: new FormControl('', Validators.required),
-            title: new FormControl('', Validators.required),
-            function: new FormControl('', Validators.required),
-            website: new FormControl('', Validators.required),
-            type: new FormControl('', Validators.required),
-            city: new FormControl('', Validators.required),
-            street: new FormControl('', Validators.required),
-            district: new FormControl('', Validators.required),
-            description: new FormControl('', Validators.required),
-            dateFrom: new FormControl(new Date()),
-            dateTo: new FormControl(new Date())
         });
     }
 
@@ -107,10 +129,11 @@ export class AddPostComponent implements OnInit {
                 }
             }
         });
+        this.streetSearch = this.streets;
     }
 
     searchCity() {
-        let search = this.formJob.value.city.trim().toLowerCase();
+        let search = this.formPost.value.city.trim().toLowerCase();
         let listCity = this.citySearch.filter(city =>
             city.name.toLowerCase().indexOf(search) > -1);
         if (listCity) {
@@ -119,7 +142,7 @@ export class AddPostComponent implements OnInit {
     }
 
     searchDistrict() {
-        let search = this.formJob.value.district.trim().toLowerCase();
+        let search = this.formPost.value.district.trim().toLowerCase();
         let listDistrict = this.districtSearch.filter(district =>
             district.name.toLowerCase().indexOf(search) > -1);
         if (listDistrict) {
@@ -127,32 +150,56 @@ export class AddPostComponent implements OnInit {
         }
     }
 
+    searchStreet() {
+        let search = this.formPost.value.street.trim().toLowerCase();
+        let listStreet = this.streetSearch.filter(street =>
+            street.name.toLowerCase().indexOf(search) > -1);
+        if (listStreet) {
+            this.streets = listStreet;
+        }
+    }
+
     save() {
         this.showSpinder = true;
-        if (!this.job.key) {
-            this.job.address = {};
-        }
-        let valueJob = this.formJob.value;
-        this.job.company = this.untilHelper.niceString(valueJob.company);
-        this.job.title = this.untilHelper.niceString(valueJob.title);
-        this.job.address.city = valueJob.city;
-        this.job.address.district = valueJob.district;
-        this.job.address.street = valueJob.street;
-        this.job.function = valueJob.function;
-        this.job.type = valueJob.type;
-        this.job.website = this.untilHelper.niceString(valueJob.website);
-        this.job.dateFrom = moment(valueJob.dateFrom).format('ll');
-        this.job.dateTo = moment(valueJob.dateTo).format('ll');
-        this.job.description = valueJob.description;
-        this.job.createdAt = Date.now();
-        this.PostService.add(this.job).then((success) => {
-            if (success.key) {
-                this.toastrService.success("Create the post is successfully!", "Success");
-                $('.btn-close').trigger('click');
-            } else {
-                this.toastrService.error("Something went wrong!", "Error");
+        this.post.address = {};
+        let valuePost = this.formPost.value;
+        for (let key in valuePost) {
+            if (key == "city" || key == "street" || key == "district") {
+                this.post.address[key] = valuePost[key];
+                if (key == "city") {
+                    this.post[key] = valuePost[key];
+                }
             }
-            this.showSpinder = false;
-        }, error => { console.log(error); this.showSpinder = false }).catch((error) => { console.log(error); this.showSpinder = false });
+            else if (key == "dateFrom" || key == "dateTo") {
+                this.post[key] = moment(valuePost[key]).format('ll');
+            }
+            else {
+                this.post[key] = valuePost[key];
+            }
+        }
+        if (valuePost.key) {
+            this.post.updatedAt = Date.now();
+            console.log(this.post);
+            this.postService.update(this.post).then((error) => {
+                if (!error) {
+                    this.toastrService.success("Update the post is successfully!", "Success");
+                    $('.btn-close').trigger('click');
+                } else {
+                    this.toastrService.error("Something went wrong!", "Error");
+                }
+            }, error => { console.log(error); this.showSpinder = false })
+                .catch((error) => { console.log(error); this.showSpinder = false })
+        } else {
+            this.post.createdAt = Date.now();
+            this.postService.add(this.post).then((success) => {
+                if (success.key) {
+                    this.toastrService.success("Create the post is successfully!", "Success");
+                    $('.btn-close').trigger('click');
+                } else {
+                    this.toastrService.error("Something went wrong!", "Error");
+                }
+                this.showSpinder = false;
+            }, error => { console.log(error); this.showSpinder = false }).catch((error) => { console.log(error); this.showSpinder = false });
+        }
     }
 }

@@ -4,7 +4,7 @@ import { AsyncLocalStorage } from 'angular-async-local-storage';
 import { ToastrService } from 'ngx-toastr';
 import { } from 'ngx-loading';
 import { AngularFireStorage } from 'angularfire2/storage';
-
+import { Router } from '@angular/router';
 import * as $ from 'jquery';
 
 import { UserService } from '../../../services/user/user.service';
@@ -22,25 +22,28 @@ export class UpdateUserComponent implements OnInit {
     selectedFiles: FileList;
     file: File;
 
-
-    constructor(private userService: UserService, private formBuilder: FormBuilder,
+    constructor(private userService: UserService, private formBuilder: FormBuilder, private router: Router,
         private localStorage: AsyncLocalStorage, private toastService: ToastrService, private storage: AngularFireStorage) {
         this.localStorage.getItem('user').subscribe(user => {
-            this.user = user;
-            this.formUser = this.formBuilder.group({
-                uid: new FormControl(user.uid),
-                name: new FormControl(user.name),
-                username: new FormControl(user.username ? user.username : ''),
-                age: new FormControl(user.age),
-                gender: new FormControl(user.gender),
-                email: new FormControl(user.email),
-                city: new FormControl(user.address.city),
-                district: new FormControl(user.address.district),
-                street: new FormControl(user.address.street),
-                description: new FormControl(user.description)
-            });
-            if (!this.user.avatar_url) {
-                this.user.avatar_url = "";
+            if (user) {
+                this.user = user;
+                this.formUser = this.formBuilder.group({
+                    uid: new FormControl(user.uid),
+                    name: new FormControl(user.name),
+                    username: new FormControl(user.username ? user.username : ''),
+                    age: new FormControl(user.age),
+                    gender: new FormControl(user.gender),
+                    email: new FormControl(user.email),
+                    city: new FormControl(user.address.city),
+                    district: new FormControl(user.address.district),
+                    street: new FormControl(user.address.street),
+                    description: new FormControl(user.description)
+                });
+                if (!this.user.avatar_url) {
+                    this.user.avatar_url = "";
+                }
+            } else {
+                router.navigateByUrl('/login');
             }
         });
 

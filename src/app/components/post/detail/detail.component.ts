@@ -9,6 +9,7 @@ import { MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 export class DetailPostComponent implements OnInit {
 
     constructor( @Inject(MAT_DIALOG_DATA) public data: any) {
+        console.log(data);
     }
 
     ngOnInit() {

@@ -15,8 +15,12 @@
     width: 50%;
     margin: 5%;
 }
-.add {
+.btn-add {
     margin-bottom: 1% !important;
+    float: right;
+    margin-right: 3%;
 }
-
+.btn-export {
+    float: right;
+}
 
