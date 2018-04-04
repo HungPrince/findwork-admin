@@ -21,6 +21,8 @@ import { ToastrModule } from 'ngx-toastr';
 import { AsyncLocalStorageModule } from 'angular-async-local-storage';
 
 import { FIREBASE_CONFIG } from './configs/constant';
+import { AuthGuard } from './services/auth/auth.guard';
+import { AuthService } from './services/auth/auth.service';
 import { MomentPipe } from './pipes/moment.pipe';
 import { UntilHelper } from './helpers/until.helper';
 import { PostService } from './services/post/post.service';
@@ -51,14 +53,14 @@ import { ContactComponent } from './components/contact/contact.component';
 
 
 const appRoutes: Routes = [
-    { path: 'admin', component: StatisticalComponent },
-    { path: 'user', component: UserComponent },
-    { path: 'post', component: PostComponent },
+    { path: 'admin', component: StatisticalComponent, canActivate: [AuthGuard] },
+    { path: 'user', component: UserComponent, canActivate: [AuthGuard] },
+    { path: 'post', component: PostComponent, canActivate: [AuthGuard] },
+    { path: 'update-profile', component: UpdateUserComponent, canActivate: [AuthGuard] },
+    { path: 'contact', component: ContactComponent, canActivate: [AuthGuard] },
     { path: 'login', component: LoginComponent },
     { path: 'signup', component: SignupComponent },
     { path: 'logout', component: LogoutComponent },
-    { path: 'update-profile', component: UpdateUserComponent },
-    { path: 'contact', component: ContactComponent },
     {
         path: '',
         redirectTo: '/admin',
@@ -117,6 +119,8 @@ const appRoutes: Routes = [
         AsyncLocalStorageModule
     ],
     providers: [
+        AuthGuard,
+        AuthService,
         UserService,
         PostService,
         FileService,

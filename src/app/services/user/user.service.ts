@@ -20,14 +20,6 @@ export class UserService {
         private localStorage: AsyncLocalStorage) {
     }
 
-    login(account: any) {
-        return this.afAuth.auth.signInWithEmailAndPassword(account.email, account.password);
-    }
-
-    logout() {
-        return this.localStorage.removeItem('user');
-    }
-
     getAll(): Observable<any> {
         return this.af.list('users').valueChanges();
     }

@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, FormControl, Validators, NgForm } from '@angular/forms';
 import { AsyncLocalStorage } from 'angular-async-local-storage';
 
-import { UserService } from '../../services/user/user.service';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
     selector: 'app-login',
@@ -13,16 +13,17 @@ import { UserService } from '../../services/user/user.service';
     styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-    error: any;
     loginForm: FormGroup;
     constructor(private af: AngularFireAuth, private router: Router, private frmbuider: FormBuilder,
-        private userService: UserService, private localStorage: AsyncLocalStorage) {
+        private localStorage: AsyncLocalStorage, private authService: AuthService) {
 
         this.localStorage.getItem('user').subscribe(data => {
             if (data) {
-                router.navigateByUrl('/admin');
+                this.authService.loggedIn.next(true);
+                router.navigate(['/']);
             }
         });
+
         this.loginForm = frmbuider.group({
             email: new FormControl(),
             password: new FormControl()
@@ -30,18 +31,9 @@ export class LoginComponent implements OnInit {
     }
 
     onSubmit(account) {
-        this.userService.login(account.value).then(result => {
-            let user: any = {};
-            this.userService.getUserById(result.uid).then(data => {
-                user = data.val();
-                user.uid = result.uid;
-                this.localStorage.setItem('user', user).subscribe(data => {
-                });
-            });
-
-            this.router.navigateByUrl('/admin');
-        })
+        this.authService.login(account.value);
     }
+
 
     ngOnInit() {
     }

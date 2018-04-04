@@ -1,9 +1,13 @@
-<div id="wrapper">
-    <div class="content-page">
-        <router-outlet></router-outlet>
+<div class="wrapper">
+    <app-sidebar  *ngIf="isLoggedIn$ | async as isLoggedIn"></app-sidebar>
+    <div class="main-panel">
+        <app-navigation  *ngIf="isLoggedIn$ | async as isLoggedIn"></app-navigation>
+        <div class="content">
+            <div class="container-fluid">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+        <app-footer  *ngIf="isLoggedIn$ | async as isLoggedIn"></app-footer>
     </div>
-    <app-sidebar></app-sidebar>
-    <app-footer></app-footer>
-
-    {{ message | async | json }}
 </div>
+

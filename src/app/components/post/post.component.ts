@@ -3,12 +3,13 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { MatPaginator, MatSort, MatTableDataSource, MatDialog } from '@angular/material';
 
-import { PostService } from '../../services/post/post.service';
 import { DetailPostComponent } from '../post/detail/detail.component';
 import { AddPostComponent } from '../post/add/add.component';
 import { TYPES, CITIES, DISTRICTS, STREETS, FUNCTION_JOB } from '../../configs/data';
 import { FileService } from '../../services/file/file.service';
-
+import { PostService } from '../../services/post/post.service';
+import { AsyncLocalStorage } from 'angular-async-local-storage';
+import { AngularFireStorage } from 'angularfire2/storage';
 
 @Component({
     selector: 'app-post',
@@ -18,21 +19,36 @@ import { FileService } from '../../services/file/file.service';
 export class PostComponent implements OnInit {
     private tableName = "Post Table";
     private tableTitle = "This is list post";
+    selectedFiles: FileList;
+    file: File;
     private loading = false;
     private cities: any;
     types = TYPES;
     functions = FUNCTION_JOB;
     dataSource: any;
+    post: any;
+    user: any;
     displayedColumns = ['company', 'title', 'type', 'function', 'website', 'address', 'dateFrom', 'dateTo', 'action'];
     citySearch: any;
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
 
-    constructor(private postService: PostService, private matDialog: MatDialog,
-        private toastrService: ToastrService, private fileService: FileService) {
+    constructor(
+        private postService: PostService,
+        private matDialog: MatDialog,
+        private toastrService: ToastrService,
+        private fileService: FileService,
+        private localStorage: AsyncLocalStorage,
+        private storageFB: AngularFireStorage) {
         this.cities = [];
 
         this.loading = true;
+
+        this.localStorage.getItem('user').subscribe(user => {
+            if (user) {
+                this.user = user;
+            }
+        })
 
         postService.getAll().subscribe(data => {
             CITIES.forEach(city => {
@@ -84,7 +100,7 @@ export class PostComponent implements OnInit {
     }
 
     rowClicked(row: any): void {
-        console.log(row);
+        this.post = row;
     }
 
     detailClicked(post) {
@@ -119,6 +135,35 @@ export class PostComponent implements OnInit {
 
         dialogEdit.afterClosed().subscribe(result => {
             console.log('close add dialog');
+        });
+    }
+
+    chooseFiles(event) {
+        this.selectedFiles = event.target.files;
+        if (this.selectedFiles.item(0)) {
+            this.uploadpic();
+        }
+    }
+
+    uploadpic() {
+        if (!this.post.files) {
+            this.post.files = [];
+        }
+        let file = this.selectedFiles.item(0);
+        let uniqkey = 'file' + Math.floor(Math.random() * 1000000);
+        this.storageFB.upload('/files/' + uniqkey, file).then((uploadTask) => {
+            this.post.files[this.user.uid] = uploadTask.downloadURL;
+            this.postService.update(this.post).then(error => {
+                if (!error) {
+                    this.toastrService.success('Apply is successfully!', 'success', {
+                        positionClass: 'toast-bottom-right'
+                    });
+                } else {
+                    this.toastrService.error('Something went wrong!', 'error', {
+                        positionClass: 'toast-bottom-right'
+                    });
+                }
+            });
         });
     }
 

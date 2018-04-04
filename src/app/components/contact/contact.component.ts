@@ -26,7 +26,7 @@ export class ContactComponent implements OnInit {
                 this.router.navigateByUrl('/login');
             }
         }, error => { console.log(error) });
-        
+
         this.contactForm = this.formBuider.group({
             title: new FormControl('', Validators.required),
             message: new FormControl('', Validators.required)
