@@ -59,9 +59,6 @@
                         <ng-container matColumnDef="action">
                             <mat-header-cell *matHeaderCellDef class="action-table"> Action </mat-header-cell>
                             <mat-cell *matCellDef="let user" class="action-table">
-                                <button (click)="edit(user)" mat-icon-button color="primary" class="mat-raised-button mat-primary">
-                                    <mat-icon small>edit</mat-icon>
-                                </button>
                                 <button (click)="detail(user)" mat-icon-button class="mat-raised-button">
                                     <mat-icon small>storage</mat-icon>
                                 </button>
