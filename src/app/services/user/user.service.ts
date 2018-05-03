@@ -20,6 +20,14 @@ export class UserService {
         private localStorage: AsyncLocalStorage) {
     }
 
+    login(account: any) {
+        return this.afAuth.auth.signInWithEmailAndPassword(account.email, account.password);
+    }
+
+    logout() {
+        return this.localStorage.removeItem('user');
+    }
+
     getAll(): Observable<any> {
         return this.af.list('users').valueChanges();
     }
@@ -29,25 +37,12 @@ export class UserService {
     }
 
     update(user): any {
-        return this.af.database.ref(`users/${user.uid}`).update(user);
+        return this.af.database.ref(`users/${user.uid}`).set(user);
     }
 
     testPagination(): any {
         return this.af.database.ref("users").orderByChild('name').startAt("Hung Bui").limitToLast(5).once("value", (data) => { console.log(data.val()) });
     }
 
-    public exportAsExcelFile(json: any[], excelFileName: string): void {
-        const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
-        const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
-        const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-        this.saveAsExcelFile(excelBuffer, excelFileName);
-    }
-
-    private saveAsExcelFile(buffer: any, fileName: string): void {
-        const data: Blob = new Blob([buffer], {
-            type: this.EXCEL_TYPE
-        });
-        FileSaver.saveAs(data, fileName + '_export_' + new Date().getTime() + this.EXCEL_EXTENSION);
-    }
 
 }
