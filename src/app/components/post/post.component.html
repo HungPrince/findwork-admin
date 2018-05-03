@@ -48,13 +48,19 @@
                             <mat-cell *matCellDef="let post"> {{ post.title }} </mat-cell>
                         </ng-container>
 
+                        <ng-container matColumnDef="image">
+                            <mat-header-cell *matHeaderCellDef> Image </mat-header-cell>
+                            <mat-cell *matCellDef="let post">
+                                <img class="image-post" src="{{ post.image_url }}" alt="">
+                            </mat-cell>
+                        </ng-container>
+
                         <ng-container matColumnDef="type">
                             <mat-header-cell *matHeaderCellDef mat-sort-header> Type </mat-header-cell>
                             <mat-cell *matCellDef="let post">
                                 {{ post.type }}
                             </mat-cell>
                         </ng-container>
-
 
                         <ng-container matColumnDef="function">
                             <mat-header-cell *matHeaderCellDef> Function </mat-header-cell>
@@ -66,21 +72,6 @@
                         <ng-container matColumnDef="website">
                             <mat-header-cell *matHeaderCellDef> website </mat-header-cell>
                             <mat-cell *matCellDef="let post"> {{ post.website }} </mat-cell>
-                        </ng-container>
-
-                        <ng-container matColumnDef="address">
-                            <mat-header-cell *matHeaderCellDef> address </mat-header-cell>
-                            <mat-cell *matCellDef="let post"> {{ post.address.city }}, {{ post.address.district }}, {{ post.address.street }} </mat-cell>
-                        </ng-container>
-
-                        <ng-container matColumnDef="dateFrom">
-                            <mat-header-cell *matHeaderCellDef> Date From </mat-header-cell>
-                            <mat-cell *matCellDef="let post"> {{ post.dateFrom }} </mat-cell>
-                        </ng-container>
-
-                        <ng-container matColumnDef="dateTo">
-                            <mat-header-cell *matHeaderCellDef> Date To </mat-header-cell>
-                            <mat-cell *matCellDef="let post"> {{ post.dateTo }} </mat-cell>
                         </ng-container>
 
                         <ng-container matColumnDef="action">
@@ -95,8 +86,8 @@
                                 <button (click)="deleteClicked(post)" mat-icon-button color="warn" class="mat-raised-button mat-warn">
                                     <mat-icon small>delete</mat-icon>
                                 </button>
-                                <button mat-raised-button color="primary" class="btn-upload-file" (click)="fileInput.click()">Apply</button>
-                                <input #fileInput type="file" (change)="chooseFiles($event)" style="display:none;" />
+                                <!-- <button mat-raised-button color="primary" class="btn-upload-file" (click)="fileInput.click()">Apply</button>
+                                <input #fileInput type="file" (change)="chooseFiles($event)" style="display:none;" /> -->
                             </mat-cell>
                         </ng-container>
 

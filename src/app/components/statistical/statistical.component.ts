@@ -14,30 +14,28 @@ export class StatisticalComponent implements OnInit {
     barChart: any;
     doughnutChart: any;
     lineChart: any;
-    dataChartUser = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    dataChartPost = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    dataChartPostUser = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    dataChartUser = [1, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    dataChartPost = [0, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    dataChartPostUser = [2, 4, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     private months = ["Jan", "Fer", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
-
+    showSpinder = true;
     data: any = {};
 
     constructor(private statisticalService: StatisticalService,
         private storage: AsyncLocalStorage,
         private elementRef: ElementRef) {
+        let date = new Date();
+        let month = date.getMonth();
+        this.months = this.months.slice(0, month + 1);
         statisticalService.countUser().subscribe(data => {
             this.data.countUser = data.length;
             this.data.countApplicant = 0;
             this.data.countRecruiter = 0;
 
-            let count = 0;
-
             data.forEach(user => {
                 let month = new Date(user.createdAt).getMonth();
                 this.dataChartUser[month]++;
-                count++;
-                if (count === data.length) {
-                    this.initChartUser();
-                }
+
                 if (user.role == "applicant") {
                     this.data.countApplicant++;
                 } else if (user.role == "recruiter") {
@@ -61,11 +59,9 @@ export class StatisticalComponent implements OnInit {
                     }
                     this.dataChartPost[month]++;
                     count++;
-                    console.log(count);
                     if (count == data.length) {
-                        console.log('abc');
-                        this.initChartPost();
                         this.initChartUserPost();
+                        this.showSpinder = false;
                     }
 
                 });
@@ -77,14 +73,6 @@ export class StatisticalComponent implements OnInit {
     ngOnInit() {
     }
 
-    initChartUser() {
-
-    }
-
-    initChartPost() {
-
-    }
-
     initChartUserPost() {
         let lineRef = this.elementRef.nativeElement.querySelector('canvas');
         this.lineChart = new Chart(lineRef, {
@@ -93,18 +81,52 @@ export class StatisticalComponent implements OnInit {
                 labels: this.months,
                 datasets: [
                     {
-                        label: '# of number User',
+                        label: '# of number user',
+                        fillColor: "rgba(220,220,220,0.2)",
+                        strokeColor: "rgba(220,220,220,1)",
+                        pointColor: "rgba(220,220,220,1)",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(220,220,220,1)",
+                        borderColor: "#ffcc00",
+                        data: this.dataChartUser,
+                    },
+                    {
+                        label: '# of number post',
+                        fillColor: "rgba(151,187,205,0.2)",
+                        strokeColor: "rgba(151,187,205,1)",
+                        pointColor: "rgba(151,187,205,1)",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(151,187,205,1)",
+                        borderColor: "#3cba9f",
+                        data: this.dataChartPost,
+                    },
+                    {
+                        label: '# of number your post',
+                        fillColor: "rgba(151,187,205,0.2)",
+                        strokeColor: "rgba(151,187,205,1)",
+                        pointColor: "rgba(151,187,205,1)",
+                        pointStrokeColor: "#fff",
+                        pointHighlightFill: "#fff",
+                        pointHighlightStroke: "rgba(151,187,205,1)",
+                        borderColor: "#952097",
                         data: this.dataChartPostUser
-                    }
+                    },
                 ]
             },
             options: {
                 legend: {
-                    display: false
+                    display: true
                 },
                 scales: {
                     xAxes: [{
-                        display: true
+                        display: true,
+                        ticks: {
+                            min: 0,
+                            stepSize: 1,
+                            max: 10
+                        }
                     }],
                     yAxes: [{
                         display: true

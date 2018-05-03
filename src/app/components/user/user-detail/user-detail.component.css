@@ -26,3 +26,8 @@ mat-list-item span{
 mat-dialog-content {
     overflow: hidden;
 }
+
+.avatar{
+    width: 80%;
+    height: 80%;
+}

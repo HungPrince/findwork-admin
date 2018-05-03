@@ -41,9 +41,9 @@
                             <mat-cell *matCellDef="let user"> {{user.school}} </mat-cell>
                         </ng-container>
 
-                        <ng-container matColumnDef="speciality">
-                            <mat-header-cell *matHeaderCellDef> Speciality </mat-header-cell>
-                            <mat-cell *matCellDef="let user"> {{user.speciality}} </mat-cell>
+                        <ng-container matColumnDef="specialized">
+                            <mat-header-cell *matHeaderCellDef> Specialized </mat-header-cell>
+                            <mat-cell *matCellDef="let user"> {{user.specialized}} </mat-cell>
                         </ng-container>
 
                         <ng-container matColumnDef="gender">
@@ -72,7 +72,7 @@
                         <mat-row *matRowDef="let row; columns: displayedColumns;" (click)="rowClicked(row)"></mat-row>
 
                     </mat-table>
-                    <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25]" [pageIndex]="0">
+                    <mat-paginator [pageSize]="3" [pageSizeOptions]="[3, 5, 10, 25]" [pageIndex]="0">
                     </mat-paginator>
                 </div>
             </div>

@@ -1,0 +1,16 @@
+.title-chart {
+    text-align: center; 
+    font-weight: bold
+}
+
+#canvas {
+    width: 85%;
+    height: 85%;
+}
+
+.spinner{
+    margin: auto;
+    position: fixed;
+    left: 55%;
+    top: 40%;
+}

@@ -19,7 +19,7 @@
                         <div class="col-md-3">
                             <div class="form-group label-floating is-empty">
                                 <label>Username</label>
-                                <input formControlName="username" name="username" type="text" class="form-control">
+                                <input formControlName="userName" name="userName" type="text" class="form-control">
                                 <span class="material-input"></span>
                             </div>
                         </div>
@@ -31,60 +31,95 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="row">
                         <div class="col-md-6">
+                            <div class="form-group label-floating is-empty">
+                                <label>School</label>
+                                <input formControlName="school" name="school" type="text" class="form-control">
+                                <span class="material-input"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group label-floating is-empty">
+                                <label>Specialized</label>
+                                <input formControlName="specialized" name="specialized" type="text" class="form-control">
+                                <span class="material-input"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group label-floating is-empty">
+                                <label>Phone</label>
+                                <input formControlName="phone" name="phone" type="text" class="form-control">
+                                <span class="material-input"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
                             <div class="form-group label-floating is-empty">
                                 <label>Age</label>
                                 <input formControlName="age" name="age" type="text" class="form-control">
                                 <span class="material-input"></span>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group label-floating is-empty">
+                        <div class="col-md-4">
+                            <div class="form-group label-floating is-empty label-gender">
                                 <label>Gender</label>
-                                <input formControlName="gender" name="gender" type="text" class="form-control">
+                                <br/>
+                                <mat-checkbox class="checkbox-gender" formControlName="gender" name="gender"> Male</mat-checkbox>
                                 <span class="material-input"></span>
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group label-floating is-empty">
-                                <label>Adress</label>
-                                <input type="text" class="form-control">
-                                <span class="material-input"></span>
-                            </div>
-                        </div>
-                    </div>
+
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group label-floating is-empty">
-                                <label>City</label>
-                                <input formControlName="city" name="city" type="text" class="form-control">
-                                <span class="material-input"></span>
+                                <mat-form-field class="full-width">
+                                    <input formControlName="city" name="city" type="text" (keyup)="searchCity()" placeholder="Choose city" aria-label="Number"
+                                        matInput [matAutocomplete]="city">
+                                    <mat-autocomplete #city="matAutocomplete">
+                                        <mat-option *ngFor="let city of cities" [value]="city.name" (click)="changeCity(city)">
+                                            {{ city.name }}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                </mat-form-field>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group label-floating is-empty">
-                                <label>District</label>
-                                <input formControlName="district" name="district" type="text" class="form-control">
-                                <span class="material-input"></span>
+                                <mat-form-field class="full-width">
+                                    <input formControlName="district" name="district" (keyup)="searchDistrict()" type="text" placeholder="Choose district" aria-label="Number"
+                                        matInput [matAutocomplete]="district">
+                                    <mat-autocomplete #district="matAutocomplete">
+                                        <mat-option *ngFor="let district of districts" [value]="district.name" (click)="changeDistrict(district)">
+                                            {{ district.name }}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                </mat-form-field>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group label-floating is-empty">
-                                <label>Street</label>
-                                <input formControlName="street" name="street" type="text" class="form-control">
-                                <span class="material-input"></span>
+                                <mat-form-field class="full-width">
+                                    <input formControlName="street" name="street" (keyup)="searchStreet()" type="text" placeholder="Choose street" aria-label="Number"
+                                        matInput [matAutocomplete]="street">
+                                    <mat-autocomplete #street="matAutocomplete">
+                                        <mat-option *ngFor="let street of streets" [value]="street.name">
+                                            {{ street.name }}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                </mat-form-field>
                             </div>
                         </div>
                     </div>
+
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>About Me</label>
                                 <div class="form-group label-floating is-empty">
-                                    <label> Lamborghini Mercy, Your chick she so thirsty, I'm in that two seat Lambo.</label>
                                     <textarea class="form-control" formControlName="description" name="description" rows="5"></textarea>
                                     <span class="material-input"></span>
                                 </div>

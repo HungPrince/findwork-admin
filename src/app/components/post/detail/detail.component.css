@@ -3,7 +3,7 @@
     margin: auto;
 }
 
-.job-modal-detail h2{
+.modal-detail h2{
     text-align: center;
 }
 
@@ -22,3 +22,4 @@ mat-list-item span{
     width:15%;
     text-align: justify;
 }
+

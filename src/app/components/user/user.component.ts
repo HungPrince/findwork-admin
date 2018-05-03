@@ -20,7 +20,7 @@ import { FileService } from '../../services/file/file.service';
 export class UserComponent {
     tableName = "User Table";
     tableTitle = "This is list user";
-    displayedColumns = ['name', 'email', 'avatar', 'school', 'speciality', 'role', 'action'];
+    displayedColumns = ['name', 'email', 'avatar', 'school', 'specialized', 'role', 'action'];
     dataSource: any;
     user: any;
     keyword: string;
@@ -37,19 +37,20 @@ export class UserComponent {
             data.forEach(user => {
                 let address;
                 if (user.address) {
-                    address = user.address.city + ", " + user.address.district + ", " + user.address.street + ", " + user.address.landAlleyBuilding;
+                    address = user.address.city + ", " + user.address.district + ", " + user.address.street + ", " + user.address.location;
                 }
                 let userDb = new UserDataSource(
                     user.name,
                     user.email,
-                    user.gender ? "Male" : "Female",
+                    user.gender,
                     user.school,
-                    user.speciality ? user.speciality : '',
+                    user.specialized,
                     user.role,
                     user.description,
                     address,
                     user.phone,
-                    user.avatar_url
+                    user.avatar_url,
+                    user.age
                 );
                 dataArr.push(userDb);
             });
@@ -99,22 +100,24 @@ export class UserDataSource {
     email: string;
     gender: string;
     school: string;
-    speciality: string;
+    specialized: string;
     role: string;
     description: string;
     address: string;
     phone: object;
     avatar_url: string;
-    public constructor(Name, Email, gender, School, Speciality, Role: string, Description: string, Address: string, Phone: object, Avatar_url: string) {
+    age: number
+    public constructor(Name, Email, gender, School, Specialized, Role: string, Description: string, Address: string, Phone: object, Avatar_url: string, Age: number) {
         this.name = Name;
         this.email = Email;
-        this.gender = gender;
+        this.gender = gender ? "Male" : "Female";
         this.school = School;
-        this.speciality = Speciality;
+        this.specialized = Specialized ? Specialized : '';
         this.role = Role;
         this.description = Description;
         this.address = Address;
         this.phone = Phone;
         this.avatar_url = Avatar_url;
+        this.age = Age ? Age : 18;
     }
 }

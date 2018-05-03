@@ -28,7 +28,7 @@ export class PostComponent implements OnInit {
     dataSource: any;
     post: any;
     user: any;
-    displayedColumns = ['company', 'title', 'type', 'function', 'website', 'address', 'dateFrom', 'dateTo', 'action'];
+    displayedColumns = ['company', 'title', 'image', 'type', 'function', 'website', 'action'];
     citySearch: any;
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;

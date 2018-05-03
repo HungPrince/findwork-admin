@@ -1,10 +1,11 @@
 <div class="content" *ngIf="data">
+    <mat-progress-spinner *ngIf="showSpinder" mode="indeterminate" class="spinner"></mat-progress-spinner>
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="card card-stats">
                     <div class="card-header" data-background-color="orange">
-                        <i class="material-icons">content_copy</i>
+                        <i class="material-icons">person</i>
                     </div>
                     <div class="card-content">
                         <p class="category">Total User</p>
@@ -13,7 +14,7 @@
                     </div>
                     <div class="card-footer">
                         <div class="stats">
-                            <i class="material-icons text-success">success</i>
+                            <i class="material-icons">person</i>
                             <a href="#pablo">Total user</a>
                         </div>
                     </div>
@@ -22,8 +23,8 @@
 
             <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="card card-stats">
-                    <div class="card-header" data-background-color="orange">
-                        <i class="material-icons">content_copy</i>
+                    <div class="card-header" data-background-color="blue">
+                        <i class="material-icons">person</i>
                     </div>
                     <div class="card-content">
                         <p class="category">Total Applicant</p>
@@ -32,7 +33,7 @@
                     </div>
                     <div class="card-footer">
                         <div class="stats">
-                            <i class="material-icons text-success">success</i>
+                            <i class="material-icons">person</i>
                             <a href="#pablo">Applicant</a>
                         </div>
                     </div>
@@ -42,7 +43,7 @@
             <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="card card-stats">
                     <div class="card-header" data-background-color="red">
-                        <i class="material-icons">info_outline</i>
+                        <i class="material-icons">library_books</i>
                     </div>
                     <div class="card-content">
                         <p class="category">Post</p>
@@ -55,10 +56,11 @@
                     </div>
                 </div>
             </div>
+
             <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="card card-stats">
                     <div class="card-header" data-background-color="blue">
-                        <i class="fa fa-twitter"></i>
+                        <i class="material-icons">library_books</i>
                     </div>
                     <div class="card-content">
                         <p class="category">Your Post</p>
@@ -72,11 +74,10 @@
                 </div>
             </div>
         </div>
-
         <div class="row">
             <div>
-                <p>Number your post per month</p>
                 <canvas id="canvas"></canvas>
+                <h4 class="title-chart">Biểu đồ: The number user and post werre posted per month.</h4>
             </div>
         </div>
     </div>
