@@ -2,14 +2,17 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { ToastrService } from 'ngx-toastr';
 import { MatPaginator, MatSort, MatTableDataSource, MatDialog } from '@angular/material';
+import { AsyncLocalStorage } from 'angular-async-local-storage';
+import { AngularFireStorage } from 'angularfire2/storage';
+import * as _ from 'lodash';
+import * as $ from 'jquery';
 
 import { DetailPostComponent } from '../post/detail/detail.component';
 import { AddPostComponent } from '../post/add/add.component';
+import { DeleteComponent } from '../delete/delete.component';
 import { TYPES, CITIES, DISTRICTS, STREETS, FUNCTION_JOB } from '../../configs/data';
 import { FileService } from '../../services/file/file.service';
 import { PostService } from '../../services/post/post.service';
-import { AsyncLocalStorage } from 'angular-async-local-storage';
-import { AngularFireStorage } from 'angularfire2/storage';
 
 @Component({
     selector: 'app-post',
@@ -19,16 +22,17 @@ import { AngularFireStorage } from 'angularfire2/storage';
 export class PostComponent implements OnInit {
     private tableName = "Post Table";
     private tableTitle = "This is list post";
-    selectedFiles: FileList;
-    file: File;
     private loading = false;
     private cities: any;
+    listDelete = [];
+    selectedFiles: FileList;
+    file: File;
     types = TYPES;
     functions = FUNCTION_JOB;
     dataSource: any;
     post: any;
     user: any;
-    displayedColumns = ['company', 'title', 'image', 'type', 'function', 'website', 'action'];
+    displayedColumns = ['delete', 'company', 'title', 'image', 'type', 'function', 'website', 'action'];
     citySearch: any;
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
@@ -41,7 +45,7 @@ export class PostComponent implements OnInit {
         private localStorage: AsyncLocalStorage,
         private storageFB: AngularFireStorage) {
         this.cities = [];
-
+        this.listDelete = [];
         this.loading = true;
 
         this.localStorage.getItem('user').subscribe(user => {
@@ -80,7 +84,6 @@ export class PostComponent implements OnInit {
         } else {
             this.cities = this.citySearch;
         }
-        console.log(this.cities);
     }
 
     changeType(type) {
@@ -138,6 +141,18 @@ export class PostComponent implements OnInit {
         });
     }
 
+    deleteClicked(post) {
+        let dialogDelete = this.matDialog.open(DeleteComponent, {
+            data: { key: post.key, table:'post', title: 'Delete Post', content: 'Are you sure want to delete this post?' },
+            height: '35%',
+            width: '30%'
+        });
+
+        dialogDelete.afterClosed().subscribe(result => {
+            console.log('close delete dialog');
+        });
+    }
+
     chooseFiles(event) {
         this.selectedFiles = event.target.files;
         if (this.selectedFiles.item(0)) {
@@ -165,6 +180,35 @@ export class PostComponent implements OnInit {
                 }
             });
         });
+    }
+
+    checkedDelete(key) {
+        if (!_.includes(this.listDelete, key)) {
+            this.listDelete.push(key);
+        } else {
+            for (let i = 0; i < this.listDelete.length; i++) {
+                if (this.listDelete[i] === key) {
+                    this.listDelete.splice(i, 1);
+                    break;
+                }
+            }
+        }
+    }
+
+    deleteMultiplePost() {
+        if (this.listDelete.length) {
+            let dialogDelete = this.matDialog.open(DeleteComponent, {
+                data: { keys: this.listDelete, table:'post', isArray: true, title: 'Delete These Post', content: 'Are you sure want to delete these post?' },
+                height: '35%',
+                width: '30%'
+            });
+
+            dialogDelete.afterClosed().subscribe(result => {
+                console.log('close delete dialog');
+            });
+        } else {
+            this.toastrService.error('Please, checked to delete post!', 'Error');
+        }
     }
 
     exportPost() {

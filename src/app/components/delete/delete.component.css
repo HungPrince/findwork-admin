@@ -1,0 +1,16 @@
+.delete-post {
+    text-align: center
+}
+
+mat-dialog-actions {
+    margin-top: 8%;
+    margin-right: 25%;
+    float: right;
+}
+
+.spinner {
+    margin-top: 2%;
+    margin-left: 10%;
+    position: fixed;
+    z-index: 10000;
+}

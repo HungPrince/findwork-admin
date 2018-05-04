@@ -7,6 +7,7 @@ import { fromEvent } from 'rxjs/observable/fromEvent';
 import { debounce } from 'rxjs/operators/debounce';
 import { Observable } from 'rxjs/Observable';
 import { UserDetailComponent } from "./user-detail/user-detail.component";
+import { DeleteComponent } from '../delete/delete.component';
 
 import { UserService } from '../../services/user/user.service';
 import { User } from "../../models/user";
@@ -33,6 +34,7 @@ export class UserComponent {
         userService.testPagination();
         this.loading = true;
         userService.getAll().subscribe(data => {
+            console.log(data);
             let dataArr = [];
             data.forEach(user => {
                 let address;
@@ -40,6 +42,7 @@ export class UserComponent {
                     address = user.address.city + ", " + user.address.district + ", " + user.address.street + ", " + user.address.location;
                 }
                 let userDb = new UserDataSource(
+                    user.key,
                     user.name,
                     user.email,
                     user.gender,
@@ -65,16 +68,8 @@ export class UserComponent {
         this.fileService.exportAsExcelFile(this.dataSource.filteredData, 'user');
     }
 
-    rowClicked(row: any): void {
-        console.log(row);
-    }
-
     changeDataSoure(keyword) {
         this.dataSource.filter = keyword.trim().toLowerCase();
-    }
-
-    edit(user) {
-        this.user = user;
     }
 
     detail(user) {
@@ -90,12 +85,21 @@ export class UserComponent {
     }
 
     delete(user) {
-        this.user = user;
+        const dialogRef = this.dialog.open(DeleteComponent, {
+            data: { key: user.key, table: 'users', title: 'Delete User', content: 'Are you sure want to delete this user?' },
+            height: '35%',
+            width: '30%'
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            console.log(`Dialog result: ${result}`);
+        });
     }
 
 }
 
 export class UserDataSource {
+    key: string;
     name: string;
     email: string;
     gender: string;
@@ -107,7 +111,8 @@ export class UserDataSource {
     phone: object;
     avatar_url: string;
     age: number
-    public constructor(Name, Email, gender, School, Specialized, Role: string, Description: string, Address: string, Phone: object, Avatar_url: string, Age: number) {
+    public constructor(Key, Name, Email, gender, School, Specialized, Role: string, Description: string, Address: string, Phone: object, Avatar_url: string, Age: number) {
+        this.key = Key;
         this.name = Name;
         this.email = Email;
         this.gender = gender ? "Male" : "Female";

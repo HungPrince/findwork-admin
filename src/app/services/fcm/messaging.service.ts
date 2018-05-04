@@ -13,7 +13,6 @@ export class MessagingService {
     constructor(private db: AngularFireDatabase, private afAuth: AngularFireAuth) { }
 
     updateToken(token) {
-        console.log(token);
         this.afAuth.authState.take(1).subscribe(user => {
             if (!user) return;
             const data = { [user.uid]: token };

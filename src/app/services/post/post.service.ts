@@ -19,7 +19,11 @@ export class PostService {
     }
 
     update(post: any): any {
-        return this.af.database.ref(`post/${post.key}`).set(post);
+        return this.af.database.ref(post).set(post);
+    }
+
+    delete(key: any): any {
+        return this.af.database.ref(`post/${key}`).remove();
     }
 
 }

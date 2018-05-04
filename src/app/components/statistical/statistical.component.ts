@@ -47,25 +47,25 @@ export class StatisticalComponent implements OnInit {
         statisticalService.countPost().subscribe(data => {
             this.data.countPost = data.length;
             this.data.yourPost = 0;
-            let count = 0;
-            this.storage.getItem('user').subscribe(user => {
-                data.forEach(post => {
-                    if (post.userId == user.uid) {
-                        data.yourPost++;
-                    }
-                    let month = new Date(post.createdAt).getMonth();
-                    if (post.userId == user.uid) {
-                        this.dataChartPostUser[month]++;
-                    }
-                    this.dataChartPost[month]++;
-                    count++;
-                    if (count == data.length) {
-                        this.initChartUserPost();
-                        this.showSpinder = false;
-                    }
-
-                });
-            });
+            this.storage.getItem('user').subscribe(
+                user => {
+                    data.forEach(post => {
+                        if (post.userId == user.uid) {
+                            data.yourPost++;
+                        }
+                        let month = new Date(post.createdAt).getMonth();
+                        if (post.userId == user.uid) {
+                            this.dataChartPostUser[month]++;
+                        }
+                        this.dataChartPost[month]++;
+                    });
+                },
+                err => { console.log(err); },
+                () => {
+                    this.initChartUserPost();
+                    this.showSpinder = false;
+                }
+            );
 
         });
     }

@@ -31,6 +31,7 @@ import { StatisticalService } from './services/statistical/statistical.service';
 import { FileService } from './services/file/file.service';
 import { ContactService } from './services/contact/contact.service';
 import { MessagingService } from './services/fcm/messaging.service';
+import { ShareService } from './services/share/share.service';
 
 import { AppComponent } from './app.component';
 import { SidebarComponent } from './components/shares/sidebar/sidebar.component';
@@ -49,7 +50,7 @@ import { UpdateUserComponent } from './components/user/update-user/update-user.c
 import { LogoutComponent } from './components/logout/logout.component';
 import { ManagerFileComponent } from './components/manager-file/manager-file.component';
 import { ContactComponent } from './components/contact/contact.component';
-
+import { DeleteComponent } from './components/delete/delete.component';
 
 
 const appRoutes: Routes = [
@@ -90,8 +91,14 @@ const appRoutes: Routes = [
         LogoutComponent,
         ManagerFileComponent,
         ContactComponent,
+        DeleteComponent,
     ],
-    entryComponents: [UserDetailComponent, DetailPostComponent, AddPostComponent],
+    entryComponents: [
+        UserDetailComponent,
+        DetailPostComponent,
+        AddPostComponent,
+        DeleteComponent,
+    ],
     imports: [
         RouterModule.forRoot(
             appRoutes,
@@ -127,6 +134,7 @@ const appRoutes: Routes = [
         ContactService,
         StatisticalService,
         MessagingService,
+        ShareService,
         AngularFireAuth,
         AngularFireDatabase,
         MatDatepicker,

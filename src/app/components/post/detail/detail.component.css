@@ -23,3 +23,6 @@ mat-list-item span{
     text-align: justify;
 }
 
+mat-dialog-content {
+    overflow: hidden;
+}

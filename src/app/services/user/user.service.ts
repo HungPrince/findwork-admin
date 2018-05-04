@@ -1,21 +1,16 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from "@angular/common/http";
 import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Observable } from 'rxjs/Observable';
 import * as firebase from 'firebase/app';
 import { map } from "rxjs/operators";
 import { AsyncLocalStorage } from 'angular-async-local-storage';
-import * as FileSaver from 'file-saver';
-import * as XLSX from 'xlsx';
 
 import { User } from "./../../models/user";
 
 @Injectable()
 export class UserService {
 
-    private EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-    private EXCEL_EXTENSION = '.xlsx';
     constructor(public afAuth: AngularFireAuth, public af: AngularFireDatabase,
         private localStorage: AsyncLocalStorage) {
     }
@@ -29,7 +24,10 @@ export class UserService {
     }
 
     getAll(): Observable<any> {
-        return this.af.list('users').valueChanges();
+        return this.af.list('users').snapshotChanges()
+            .map(users => {
+                return users.map(user => ({ key: user.key, ...user.payload.val() }));
+            });
     }
 
     getUserById(userId): any {
@@ -43,6 +41,4 @@ export class UserService {
     testPagination(): any {
         return this.af.database.ref("users").orderByChild('name').startAt("Hung Bui").limitToLast(5).once("value", (data) => { console.log(data.val()) });
     }
-
-
 }

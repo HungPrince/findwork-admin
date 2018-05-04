@@ -27,7 +27,6 @@ export class AppComponent implements OnInit {
                 router.navigateByUrl('/admin');
             }
         });
-
     }
 
     ngOnInit() {
