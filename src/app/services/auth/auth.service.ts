@@ -6,15 +6,13 @@ import { AsyncLocalStorage } from 'angular-async-local-storage';
 
 import * as firebase from 'firebase/app';
 
-import { User } from '../../models/user';
-
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import { map } from "rxjs/operators";
 import "rxjs/add/observable/of";
-import "rxjs/add/operator/switchMap";
+import { switchMap } from 'rxjs/operators';
 
-
+import { User } from '../../models/user';
 import { UserService } from '../user/user.service';
 
 @Injectable()
@@ -33,19 +31,17 @@ export class AuthService {
         private userService: UserService,
         private localStorage: AsyncLocalStorage
     ) {
-        // this.afAuth.authState
-        //     .switchMap(auth => {
-        //         if (auth) {
-        //             /// signed in
-        //             return this.db.object('users/' + auth.uid)
-        //         } else {
-        //             /// not signed in
-        //             return Observable.of(null)
-        //         }
-        //     })
-        //     .subscribe(user => {
-        //         this.user.next(user)
-        //     });
+        this.afAuth.authState.switchMap
+            (auth => {
+                if (auth) {
+                    return this.db.database.ref('users/' + auth.uid).once('value', data => { return data });
+                } else {
+                    return Observable.of(null);
+                }
+            })
+            .subscribe(user => {
+                this.user.next(user.val());
+            });
     }
 
     login(account: any) {
@@ -66,7 +62,7 @@ export class AuthService {
         this.loggedIn.next(false);
         this.localStorage.removeItem('user').subscribe(data => {
             this.router.navigate(['/login']);
-        })
+        });
     }
 
 }

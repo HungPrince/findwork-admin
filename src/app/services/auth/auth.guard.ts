@@ -9,14 +9,21 @@ import { AuthService } from './auth.service';
 import { Observable } from 'rxjs/Observable';
 import { AsyncLocalStorage } from 'angular-async-local-storage';
 
+import * as _ from 'lodash';
+
 @Injectable()
 export class AuthGuard implements CanActivate {
+
+    userRoles: Array<string>;
+
     constructor(
         private authService: AuthService,
         private router: Router,
         private localStorage: AsyncLocalStorage
     ) {
-
+        authService.user.map(user => {
+            return this.userRoles = _.keys(_.get(user, 'roles'));
+        }).subscribe();
     }
 
     canActivate(
@@ -34,11 +41,23 @@ export class AuthGuard implements CanActivate {
             });
     }
 
-    canEdit() {
+    canRead(): boolean {
+        const allowed = ['admin', 'author', 'reader'];
+        return this.matchingRole(allowed);
+    }
 
+    canEdit(): boolean {
+        const allowed = ['admin', 'author'];
+        return this.matchingRole(allowed);
     }
 
     canDelete() {
-
+        const allowed = ['admin'];
+        return this.matchingRole(allowed);
     }
+
+    matchingRole(allowedRoles): boolean {
+        return !_.isEmpty(_.intersection(allowedRoles, this.userRoles));
+    }
+
 }

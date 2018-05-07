@@ -13,6 +13,7 @@ import { DeleteComponent } from '../delete/delete.component';
 import { TYPES, CITIES, DISTRICTS, STREETS, FUNCTION_JOB } from '../../configs/data';
 import { FileService } from '../../services/file/file.service';
 import { PostService } from '../../services/post/post.service';
+import { AuthGuard } from '../../services/auth/auth.guard';
 
 @Component({
     selector: 'app-post',
@@ -43,7 +44,8 @@ export class PostComponent implements OnInit {
         private toastrService: ToastrService,
         private fileService: FileService,
         private localStorage: AsyncLocalStorage,
-        private storageFB: AngularFireStorage) {
+        private storageFB: AngularFireStorage,
+        private authGuard: AuthGuard) {
         this.cities = [];
         this.listDelete = [];
         this.loading = true;
@@ -130,27 +132,35 @@ export class PostComponent implements OnInit {
     }
 
     editClicked(post) {
-        let dialogEdit = this.matDialog.open(AddPostComponent, {
-            data: post,
-            width: '60%',
-            height: '100%'
-        });
+        if (this.authGuard.canEdit()) {
+            let dialogEdit = this.matDialog.open(AddPostComponent, {
+                data: post,
+                width: '60%',
+                height: '100%'
+            });
 
-        dialogEdit.afterClosed().subscribe(result => {
-            console.log('close add dialog');
-        });
+            dialogEdit.afterClosed().subscribe(result => {
+                console.log('close add dialog');
+            });
+        } else {
+            this.toastrService.error('Action prevented', 'Error');
+        }
     }
 
     deleteClicked(post) {
-        let dialogDelete = this.matDialog.open(DeleteComponent, {
-            data: { key: post.key, table:'post', title: 'Delete Post', content: 'Are you sure want to delete this post?' },
-            height: '35%',
-            width: '30%'
-        });
+        if (this.authGuard.canDelete()) {
+            let dialogDelete = this.matDialog.open(DeleteComponent, {
+                data: { key: post.key, table: 'post', title: 'Delete Post', content: 'Are you sure want to delete this post?' },
+                height: '35%',
+                width: '30%'
+            });
 
-        dialogDelete.afterClosed().subscribe(result => {
-            console.log('close delete dialog');
-        });
+            dialogDelete.afterClosed().subscribe(result => {
+                console.log('close delete dialog');
+            });
+        } else {
+            this.toastrService.error('Action prevented', 'Error');
+        }
     }
 
     chooseFiles(event) {
@@ -198,7 +208,7 @@ export class PostComponent implements OnInit {
     deleteMultiplePost() {
         if (this.listDelete.length) {
             let dialogDelete = this.matDialog.open(DeleteComponent, {
-                data: { keys: this.listDelete, table:'post', isArray: true, title: 'Delete These Post', content: 'Are you sure want to delete these post?' },
+                data: { keys: this.listDelete, table: 'post', isArray: true, title: 'Delete These Post', content: 'Are you sure want to delete these post?' },
                 height: '35%',
                 width: '30%'
             });
