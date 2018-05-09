@@ -28,6 +28,7 @@ export class ContactComponent implements OnInit {
         }, error => { console.log(error) });
 
         this.contactForm = this.formBuider.group({
+            email: new FormControl('', Validators.required),
             title: new FormControl('', Validators.required),
             message: new FormControl('', Validators.required)
         });
