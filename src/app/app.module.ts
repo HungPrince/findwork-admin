@@ -51,12 +51,14 @@ import { LogoutComponent } from './components/logout/logout.component';
 import { ManagerFileComponent } from './components/manager-file/manager-file.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { DeleteComponent } from './components/delete/delete.component';
+import { CvComponent } from './components/cv/cv.component';
 
 
 const appRoutes: Routes = [
     { path: 'admin', component: StatisticalComponent, canActivate: [AuthGuard] },
     { path: 'user', component: UserComponent, canActivate: [AuthGuard] },
     { path: 'post', component: PostComponent, canActivate: [AuthGuard] },
+    { path: 'cv', component: CvComponent, canActivate: [AuthGuard] },
     { path: 'update-profile', component: UpdateUserComponent, canActivate: [AuthGuard] },
     { path: 'contact', component: ContactComponent, canActivate: [AuthGuard] },
     { path: 'login', component: LoginComponent },
@@ -92,6 +94,7 @@ const appRoutes: Routes = [
         ManagerFileComponent,
         ContactComponent,
         DeleteComponent,
+        CvComponent,
     ],
     entryComponents: [
         UserDetailComponent,

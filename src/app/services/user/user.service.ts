@@ -41,4 +41,8 @@ export class UserService {
     testPagination(): any {
         return this.af.database.ref("users").orderByChild('name').startAt("Hung Bui").limitToLast(5).once("value", (data) => { console.log(data.val()) });
     }
+
+    getListCV(): Observable<any> {
+        return this.af.list('cv').valueChanges();
+    }
 }

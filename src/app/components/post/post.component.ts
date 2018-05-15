@@ -53,24 +53,26 @@ export class PostComponent implements OnInit {
         this.localStorage.getItem('user').subscribe(user => {
             if (user) {
                 this.user = user;
+                postService.getAll().subscribe(data => {
+                    CITIES.forEach(city => {
+                        for (let key in city) {
+                            this.cities.push({
+                                name: city[key].name_with_type,
+                                code: key
+                            });
+                        }
+                    });
+                    if (this.user.role = 'author') {
+                        data = data.filter(dta => dta.userId === this.user.uid);
+                    }
+                    this.citySearch = this.cities;
+                    this.dataSource = new MatTableDataSource(data);
+                    this.dataSource.paginator = this.paginator;
+                    this.dataSource.sort = this.sort;
+                    this.loading = false;
+                }, error => { console.log(error); this.loading = false; })
             }
         })
-
-        postService.getAll().subscribe(data => {
-            CITIES.forEach(city => {
-                for (let key in city) {
-                    this.cities.push({
-                        name: city[key].name_with_type,
-                        code: key
-                    });
-                }
-            });
-            this.citySearch = this.cities;
-            this.dataSource = new MatTableDataSource(data);
-            this.dataSource.paginator = this.paginator;
-            this.dataSource.sort = this.sort;
-            this.loading = false;
-        }, error => { console.log(error); this.loading = false; })
     }
 
     ngOnInit() {

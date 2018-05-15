@@ -31,10 +31,8 @@ export class UserComponent {
     public loading = false;
 
     constructor(private userService: UserService, private dialog: MatDialog, private fileService: FileService) {
-        userService.testPagination();
         this.loading = true;
         userService.getAll().subscribe(data => {
-            console.log(data);
             let dataArr = [];
             data.forEach(user => {
                 let address;

@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators/map';
 import { startWith } from 'rxjs/operators/startWith';
 import { MatDatepicker, MAT_DIALOG_DATA } from '@angular/material';
 import { ToastrService } from 'ngx-toastr';
+import { AsyncLocalStorage } from 'angular-async-local-storage';
 
 import * as $ from 'jquery';
 import { Moment } from 'moment';
@@ -35,12 +36,20 @@ export class AddPostComponent implements OnInit {
     districtSearch: any;
     streetSearch: any;
     post: any = {};
+    user: any = {};
     actionPost: string;
 
     showSpinder = false;
 
     constructor(private frmbuider: FormBuilder, private postService: PostService,
-        private untilHelper: UntilHelper, private toastrService: ToastrService, @Inject(MAT_DIALOG_DATA) public data: any) {
+        private untilHelper: UntilHelper, private toastrService: ToastrService,
+        @Inject(MAT_DIALOG_DATA) public data: any,
+        private localStorage: AsyncLocalStorage) {
+        this.localStorage.getItem('user').subscribe(user => {
+            if (user) {
+                this.user = user;
+            }
+        });
         if (data) {
             this.changeCity(data.city);
             this.changeDistrict(this.data.address.district);
@@ -177,6 +186,7 @@ export class AddPostComponent implements OnInit {
                 this.post[key] = valuePost[key];
             }
         }
+        this.post['userId'] = this.user.uid;
         if (valuePost.key) {
             this.post.updatedAt = Date.now();
             console.log(this.post);

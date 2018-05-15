@@ -14,9 +14,9 @@ export class StatisticalComponent implements OnInit {
     barChart: any;
     doughnutChart: any;
     lineChart: any;
-    dataChartUser = [1, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    dataChartPost = [0, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    dataChartPostUser = [2, 4, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    dataChartUser = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    dataChartPost = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    dataChartPostUser = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     private months = ["Jan", "Fer", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"];
     showSpinder = true;
     data: any = {};
@@ -36,9 +36,9 @@ export class StatisticalComponent implements OnInit {
                 let month = new Date(user.createdAt).getMonth();
                 this.dataChartUser[month]++;
 
-                if (user.role == "applicant") {
+                if (user.roles.reader) {
                     this.data.countApplicant++;
-                } else if (user.role == "recruiter") {
+                } else if (user.roles.author) {
                     this.data.countRecruiter++;
                 }
             });
