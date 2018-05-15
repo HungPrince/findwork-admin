@@ -1,11 +1,14 @@
 <div class="form-contact">
     <form [formGroup]="contactForm" (ngSubmit)="sendEmail()" novalidate>
         <mat-form-field class="full-width">
+            <input formControlName="email" name="email" matInput placeholder="Email" value="">
+        </mat-form-field>
+        <mat-form-field class="full-width">
             <input formControlName="title" name="title" matInput placeholder="Title" value="">
         </mat-form-field>
         <mat-form-field class="full-width">
-            <input formControlName="message" name="message" matInput placeholder="message" value="">
+            <input formControlName="message" name="essage" matInput placeholder="Message" value="">
         </mat-form-field>
-        <button mat-raised-button  color="primary">Send</button>
+        <button mat-raised-button color="primary">Send</button>
     </form>
 </div>
