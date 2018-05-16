@@ -1,0 +1,13 @@
+<h2 mat-dialog-title>Send interview invitation</h2>
+<button mat-raised-button mat-dialog-close class="btn-close">Back</button>
+<button mat-raised-button color="primary" type="submit" (click)="send()" class="primary btn-save" [disabled]="formSend.invalid">Send</button>
+<mat-progress-spinner *ngIf="showSpinder" mode="indeterminate" class="spinner"></mat-progress-spinner>
+<mat-dialog-content>
+    <form [formGroup]="formSend" (ngSubmit)="send()" novalidate class="form-interview">
+        <mat-form-field class="full-width">
+            <input formControlName="title" type="text" name="title" matInput placeholder="Enter title">
+        </mat-form-field>
+
+        <editor class="content" formControlName="content" name="content" apiKey="9qzoti4dpujs3v63q3kolxvv8tp8zuq7gzhnkxfqo6m1ywl2" [init]="{plugins: 'link'}"></editor>
+    </form>
+</mat-dialog-content>

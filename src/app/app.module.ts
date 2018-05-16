@@ -52,6 +52,7 @@ import { ManagerFileComponent } from './components/manager-file/manager-file.com
 import { ContactComponent } from './components/contact/contact.component';
 import { DeleteComponent } from './components/delete/delete.component';
 import { CvComponent } from './components/cv/cv.component';
+import { InterviewComponent } from './components/interview/interview.component';
 
 
 const appRoutes: Routes = [
@@ -95,12 +96,15 @@ const appRoutes: Routes = [
         ContactComponent,
         DeleteComponent,
         CvComponent,
+        InterviewComponent,
+        InterviewComponent
     ],
     entryComponents: [
         UserDetailComponent,
         DetailPostComponent,
         AddPostComponent,
         DeleteComponent,
+        InterviewComponent
     ],
     imports: [
         RouterModule.forRoot(

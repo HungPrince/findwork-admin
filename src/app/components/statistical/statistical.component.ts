@@ -36,9 +36,9 @@ export class StatisticalComponent implements OnInit {
                 let month = new Date(user.createdAt).getMonth();
                 this.dataChartUser[month]++;
 
-                if (user.roles.reader) {
+                if (user.role === 'reader') {
                     this.data.countApplicant++;
-                } else if (user.roles.author) {
+                } else if (user.role === 'author') {
                     this.data.countRecruiter++;
                 }
             });
@@ -50,11 +50,9 @@ export class StatisticalComponent implements OnInit {
             this.storage.getItem('user').subscribe(
                 user => {
                     data.forEach(post => {
-                        if (post.userId == user.uid) {
-                            data.yourPost++;
-                        }
                         let month = new Date(post.createdAt).getMonth();
                         if (post.userId == user.uid) {
+                            this.data.yourPost++;
                             this.dataChartPostUser[month]++;
                         }
                         this.dataChartPost[month]++;

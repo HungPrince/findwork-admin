@@ -20,4 +20,11 @@ tag-input tag-input-dropdown ng2-dropdown div.ng2-dropdown-menu {
     z-index: 1 !important;
 }
 
-
+.form-interview .mce-tinymce {
+    bottom: 15% ;
+    margin-left: 4% !important;
+    width: 50% !important;
+    position: fixed !important;
+    height: 300px !important;
+    z-index: 1 !important;
+}

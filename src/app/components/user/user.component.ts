@@ -6,12 +6,17 @@ import { merge } from "rxjs/observable/merge";
 import { fromEvent } from 'rxjs/observable/fromEvent';
 import { debounce } from 'rxjs/operators/debounce';
 import { Observable } from 'rxjs/Observable';
+import * as _ from 'lodash';
+
 import { UserDetailComponent } from "./user-detail/user-detail.component";
 import { DeleteComponent } from '../delete/delete.component';
+import { InterviewComponent } from '../interview/interview.component'
+import { AsyncLocalStorage } from 'angular-async-local-storage';
 
 import { UserService } from '../../services/user/user.service';
 import { User } from "../../models/user";
 import { FileService } from '../../services/file/file.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
     selector: 'user-component',
@@ -21,45 +26,59 @@ import { FileService } from '../../services/file/file.service';
 export class UserComponent {
     tableName = "User Table";
     tableTitle = "This is list user";
-    displayedColumns = ['name', 'email', 'avatar', 'school', 'specialized', 'role', 'action'];
+    displayedColumns = ['interview', 'name', 'email', 'avatar', 'school', 'specialized', 'role', 'action'];
     dataSource: any;
     user: any;
     keyword: string;
+    dataUser: any;
+    listUsendInterview = [];
+    filterUserFav = false;
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MatSort) sort: MatSort;
 
     public loading = false;
 
-    constructor(private userService: UserService, private dialog: MatDialog, private fileService: FileService) {
+    constructor(private userService: UserService,
+        private dialog: MatDialog,
+        private fileService: FileService,
+        private localStorage: AsyncLocalStorage,
+        private toastrService: ToastrService) {
         this.loading = true;
-        userService.getAll().subscribe(data => {
-            let dataArr = [];
-            data.forEach(user => {
-                let address;
-                if (user.address) {
-                    address = user.address.city + ", " + user.address.district + ", " + user.address.street + ", " + user.address.location;
+        this.localStorage.getItem('user').subscribe(user => {
+            this.user = user;
+            userService.getAll().subscribe(data => {
+                if (user.role === 'author') {
+                    data = data.filter(dta => dta.role === 'reader')
                 }
-                let userDb = new UserDataSource(
-                    user.key,
-                    user.name,
-                    user.email,
-                    user.gender,
-                    user.school,
-                    user.specialized,
-                    user.role,
-                    user.description,
-                    address,
-                    user.phone,
-                    user.avatar_url,
-                    user.age
-                );
-                dataArr.push(userDb);
-            });
-            this.loading = false;
-            this.dataSource = new MatTableDataSource(dataArr);
-            this.dataSource.paginator = this.paginator;
-            this.dataSource.sort = this.sort;
-        }, error => { console.log(error); this.loading = false });
+                let dataArr = [];
+                data.forEach(user => {
+                    let address;
+                    if (user.address) {
+                        address = user.address.city + ", " + user.address.district + ", " + user.address.street + ", " + user.address.location;
+                    }
+                    let userDb = new UserDataSource(
+                        user.key,
+                        user.name,
+                        user.email,
+                        user.gender,
+                        user.school,
+                        user.specialized,
+                        user.role,
+                        user.description,
+                        address,
+                        user.phone,
+                        user.avatar_url,
+                        user.age
+                    );
+                    dataArr.push(userDb);
+                });
+                this.loading = false;
+                this.dataSource = new MatTableDataSource(dataArr);
+                this.dataUser = dataArr;
+                this.dataSource.paginator = this.paginator;
+                this.dataSource.sort = this.sort;
+            }, error => { console.log(error); this.loading = false });
+        })
     }
 
     exportUser() {
@@ -92,6 +111,44 @@ export class UserComponent {
         dialogRef.afterClosed().subscribe(result => {
             console.log(`Dialog result: ${result}`);
         });
+    }
+
+    favoriter() {
+        this.filterUserFav = !this.filterUserFav;
+        if (this.filterUserFav) {
+            let dataS = this.dataUser.filter(data => _.has(this.user.saveUserFav, data.key));
+            if (dataS) {
+                this.dataSource.data = dataS;
+            }
+        } else {
+            this.dataSource.data = this.dataUser;
+        }
+    }
+
+    checkedInterviewInvitation(user: any) {
+        for (let i = 0; i < this.listUsendInterview.length; i++) {
+            if (this.listUsendInterview[i].key === user.key) {
+                this.listUsendInterview = this.listUsendInterview.filter(usr => usr.key !== user.key);
+                return;
+            }
+        }
+        this.listUsendInterview.push({ key: user.key, name: user.name });
+    }
+
+    sendInterviewInvitation() {
+        if (this.listUsendInterview.length) {
+            const dialogRef = this.dialog.open(InterviewComponent, {
+                data: this.listUsendInterview,
+                height: '80%',
+                width: '60%'
+            });
+
+            dialogRef.afterClosed().subscribe(result => {
+                console.log(`Dialog result: ${result}`);
+            });
+        } else {
+            this.toastrService.error('Please, Choose user to set invitation!', 'Error');
+        }
     }
 
 }

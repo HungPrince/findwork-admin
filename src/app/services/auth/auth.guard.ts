@@ -14,16 +14,16 @@ import * as _ from 'lodash';
 @Injectable()
 export class AuthGuard implements CanActivate {
 
-    userRoles: Array<string>;
+    userRoles: string;
 
     constructor(
         private authService: AuthService,
         private router: Router,
         private localStorage: AsyncLocalStorage
     ) {
-        authService.user.map(user => {
-            return this.userRoles = _.keys(_.get(user, 'roles'));
-        }).subscribe();
+        this.localStorage.getItem('user').subscribe(user => {
+            this.userRoles = user.role;
+        })
     }
 
     canActivate(
@@ -56,8 +56,8 @@ export class AuthGuard implements CanActivate {
         return this.matchingRole(allowed);
     }
 
-    matchingRole(allowedRoles): boolean {
-        return !_.isEmpty(_.intersection(allowedRoles, this.userRoles));
+    matchingRole(allowedRoles: any): boolean {
+        return _.includes(allowedRoles, this.userRoles);
     }
 
 }

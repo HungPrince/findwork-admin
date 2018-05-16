@@ -45,4 +45,8 @@ export class UserService {
     getListCV(): Observable<any> {
         return this.af.list('cv').valueChanges();
     }
+
+    addInterview(key: string, info: any): any {
+        return this.af.database.ref(`users/${key}`).child('interview').push(info);
+    }
 }

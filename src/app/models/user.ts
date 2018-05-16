@@ -11,11 +11,5 @@ export class User {
     updated_at: Date;
     list_favorite: object;
     file_url: string;
-    roles: object;
-
-    constructor(authData) {
-        this.email = authData.email;
-        this.avatar = authData.photoURL;
-        this.roles = { reader: true };
-    }
+    role: string;
 }
