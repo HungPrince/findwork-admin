@@ -5,6 +5,8 @@ import { ToastrService } from 'ngx-toastr';
 import { AsyncLocalStorage } from 'angular-async-local-storage';
 import { UserService } from '../../services/user/user.service';
 
+import * as $ from 'jquery';
+
 @Component({
     selector: 'app-interview',
     templateUrl: './interview.component.html',
@@ -36,13 +38,19 @@ export class InterviewComponent implements OnInit {
     send() {
         this.showSpinder = true
         let count = 0;
+        let content = { 'name': this.user.name, uid: this.user.uid, 'avatar_url': this.user.avatar_url, 'companyName': this.user.companyName, 'email': this.user.email, 'title': this.formSend.value.title, 'content': this.formSend.value.content, 'createdAt': Date.now() };
         this.listUserSend.forEach(element => {
-            this.userService.addInterview(element.key, { 'sender': element.name, 'title': this.formSend.value.title, 'content': this.formSend.value.content }).then(data => {
+            this.userService.addInterview(element.key, this.user.uid, content).then(data => {
                 count++;
-                console.log(data.key);
                 if (count == this.listUserSend.length) {
                     this.showSpinder = false;
+                    $('.btn-close').trigger('click');
+                    this.toastrService.success('Send Interview Invition successfully !');
                 }
+            }, error => {
+                this.showSpinder = false;
+            }).catch(e => {
+                this.showSpinder = false;
             })
         });
     }

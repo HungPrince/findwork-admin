@@ -132,7 +132,7 @@ export class UserComponent {
                 return;
             }
         }
-        this.listUsendInterview.push({ key: user.key, name: user.name });
+        this.listUsendInterview.push({ key: user.key, name: user.name, recuiter: this.user });
     }
 
     sendInterviewInvitation() {
@@ -144,6 +144,7 @@ export class UserComponent {
             });
 
             dialogRef.afterClosed().subscribe(result => {
+                this.listUsendInterview = [];
                 console.log(`Dialog result: ${result}`);
             });
         } else {

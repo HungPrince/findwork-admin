@@ -46,7 +46,7 @@ export class UserService {
         return this.af.list('cv').valueChanges();
     }
 
-    addInterview(key: string, info: any): any {
-        return this.af.database.ref(`users/${key}`).child('interview').push(info);
+    addInterview(key: string, keyI: string, info: any): any {
+        return this.af.database.ref(`users/${key}`).child('interview').child(keyI).push(info);
     }
 }
